@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidayah - Your Companion on the Path of Guidance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Bengali', 'sans-serif'],
+                        arabic: ['Amiri', 'Traditional Arabic', 'serif'],
+                        bengali: ['Hind Siliguri', 'Kalpurush', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts for Arabic & Bengali -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .font-arabic { font-family: 'Amiri', serif; }
+        .font-bengali { font-family: 'Hind Siliguri', sans-serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .light .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('quran')">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-900/30">
+                        <i class="fa-solid font-bold text-xl">☪</i>
+                    </div>
+                    <div>
+                        <span class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-200 bg-clip-text text-transparent">Hidayah</span>
+                        <span class="hidden md:inline-block text-xs text-emerald-400/80 block font-light -mt-1" data-i18n="tagline">Your Companion on Guidance</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-1">
+                    <button onclick="switchTab('quran')" id="nav-quran" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-emerald-400 bg-emerald-950/50 border border-emerald-800/50">
+                        <i class="fa-solid fa-book-quran mr-1.5"></i><span data-i18n="nav_quran">আল-কুরআন</span>
+                    </button>
+                    <button onclick="switchTab('hadith')" id="nav-hadith" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-emerald-400 hover:bg-slate-800/50">
+                        <i class="fa-solid fa-book-open mr-1.5"></i><span data-i18n="nav_hadith">হাদিস শরীফ</span>
+                    </button>
+                    <button onclick="switchTab('prayer')" id="nav-prayer" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-emerald-400 hover:bg-slate-800/50">
+                        <i class="fa-solid fa-clock mr-1.5"></i><span data-i18n="nav_prayer">নামাজের সময়সূচি</span>
+                    </button>
+                    <button onclick="switchTab('fatwa')" id="nav-fatwa" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-emerald-400 hover:bg-slate-800/50">
+                        <i class="fa-solid fa-scale-balanced mr-1.5"></i><span data-i18n="nav_fatwa">ফতোয়া ও মাসআলা</span>
+                    </button>
+                    <button onclick="switchTab('dua')" id="nav-dua" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-emerald-400 hover:bg-slate-800/50">
+                        <i class="fa-solid fa-hands-praying mr-1.5"></i><span data-i18n="nav_dua">দোয়া ও জিকির</span>
+                    </button>
+                    <button onclick="switchTab('names')" id="nav-names" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-emerald-400 hover:bg-slate-800/50">
+                        <i class="fa-solid fa-star-and-crescent mr-1.5"></i><span data-i18n="nav_names">আল্লাহর ৯৯ নাম</span>
+                    </button>
+                </nav>
+
+                <!-- Controls -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <select id="langSelect" onchange="changeGlobalLanguage(this.value)" class="bg-slate-900 border border-emerald-600/40 text-emerald-300 text-xs sm:text-sm rounded-lg px-2.5 py-1.5 focus:ring-emerald-500 focus:border-emerald-500 font-medium cursor-pointer">
+                            <option value="bn" selected>বাংলা (Bangla)</option>
+                            <option value="en">English</option>
+                            <option value="ar">العربية (Arabic)</option>
+                            <option value="ur">اردو (Urdu)</option>
+                            <option value="hi">हिन्दी (Hindi)</option>
+                        </select>
+                    </div>
+
+                    <button onclick="toggleTasbihModal()" title="Digital Tasbih" class="p-2 rounded-lg text-emerald-400 bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-800/50 transition-all flex items-center space-x-1.5 text-xs sm:text-sm font-medium">
+                        <i class="fa-solid fa-beads text-base"></i>
+                        <span class="hidden sm:inline">তসবীহ</span>
+                    </button>
+
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-800 bg-slate-950/95 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('quran'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-emerald-400 bg-emerald-950/30">
+                <i class="fa-solid fa-book-quran w-6"></i><span data-i18n="nav_quran">আল-কুরআন</span>
+            </button>
+            <button onclick="switchTab('hadith'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-book-open w-6"></i><span data-i18n="nav_hadith">হাদিস শরীফ</span>
+            </button>
+            <button onclick="switchTab('prayer'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-clock w-6"></i><span data-i18n="nav_prayer">নামাজের সময়সূচি</span>
+            </button>
+            <button onclick="switchTab('fatwa'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-scale-balanced w-6"></i><span data-i18n="nav_fatwa">ফতোয়া ও মাসআলা</span>
+            </button>
+            <button onclick="switchTab('dua'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-hands-praying w-6"></i><span data-i18n="nav_dua">দোয়া ও জিকির</span>
+            </button>
+            <button onclick="switchTab('names'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-star-and-crescent w-6"></i><span data-i18n="nav_names">আল্লাহর ৯৯ নাম</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Banner Announcement / Hijri Date & Prayer Ticker -->
+        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 border border-emerald-800/40 flex flex-col sm:flex-row items-center justify-between shadow-lg gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="p-2.5 bg-emerald-500/20 text-emerald-400 rounded-lg text-lg">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </span>
+                <div>
+                    <h2 id="hijriDateDisplay" class="font-semibold text-emerald-300 text-sm sm:text-base">লোডিং হিজরী তারিখ...</h2>
+                    <p id="gregorianDateDisplay" class="text-xs text-slate-400">Loading Date...</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <button onclick="getUserLocation()" class="px-3 py-1.5 bg-emerald-900/40 hover:bg-emerald-800 text-emerald-300 border border-emerald-700/50 rounded-lg text-xs flex items-center space-x-1.5 transition-all">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <span id="locationNameLabel">লোকেশন নির্ধারণ</span>
+                </button>
+                <div id="quickPrayerTicker" class="flex items-center space-x-2 bg-slate-900/80 px-4 py-2 rounded-lg border border-emerald-900/50 text-xs sm:text-sm">
+                    <span class="text-slate-400" data-i18n="next_prayer_label">পরবর্তী নামাজ:</span>
+                    <span id="nextPrayerName" class="font-bold text-emerald-400">--</span>
+                    <span id="nextPrayerCountdown" class="bg-emerald-900/60 text-emerald-200 px-2 py-0.5 rounded text-xs font-mono">--:--:--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: AL-QURAN SECTION -->
+        <section id="tab-quran" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Sidebar: Surah Search & List -->
+                <div class="lg:col-span-1 glass-panel p-4 rounded-2xl h-[700px] flex flex-col border border-slate-800">
+                    <div class="mb-4 space-y-3">
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-sm"></i>
+                            <input type="text" id="surahSearchInput" onkeyup="filterSurahList()" placeholder="সূরা খুঁজুন (যেমন: আল-ফাতিহা / 1)" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-emerald-500 placeholder-slate-500">
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+                            <span>মোট ১১৪ টি সূরা</span>
+                            <span id="readingSurahNum" class="text-emerald-400 font-semibold">সূরা ১</span>
+                        </div>
+                    </div>
+
+                    <!-- Surah Items Scroll View -->
+                    <div id="surahListContainer" class="flex-grow overflow-y-auto space-y-1.5 pr-1">
+                        <div class="text-center py-10 text-slate-500 text-sm">
+                            <i class="fa-solid fa-circle-notch fa-spin text-2xl text-emerald-500 mb-2"></i>
+                            <p>সূরা তালিকা লোড হচ্ছে...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Quran Reader View -->
+                <div class="lg:col-span-3 glass-panel rounded-2xl flex flex-col h-[700px] border border-slate-800 overflow-hidden relative">
+                    <!-- Surah Header Banner -->
+                    <div id="surahHeader" class="p-4 bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 border-b border-slate-800 flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h1 id="currentSurahTitle" class="text-xl sm:text-2xl font-bold text-emerald-300">১. আল-ফাতিহা</h1>
+                                <span id="currentSurahType" class="px-2 py-0.5 bg-emerald-900/60 border border-emerald-700/50 text-emerald-300 rounded text-xs">মাক্কী</span>
+                            </div>
+                            <p id="currentSurahSubtitle" class="text-xs text-slate-400 mt-0.5">Al-Fatiha • ৭টি আয়াত • ভূমিকা</p>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <select id="qariSelect" onchange="changeQari(this.value)" class="bg-slate-900 border border-slate-700 text-xs rounded-lg px-2 py-1.5 text-slate-300 focus:outline-none focus:border-emerald-500">
+                                <option value="ar.alafasy">মিশারী রাশিদ আল-আফাসী</option>
+                                <option value="ar.abdulbasitmurattal">আব্দুল বাসিত (মুরাত্তাল)</option>
+                                <option value="ar.sudais">আব্দুর রহমান আস-সুদাইস</option>
+                                <option value="ar.shaatree">আবু বকর আল-শাতরী</option>
+                            </select>
+
+                            <button onclick="toggleTransliteration()" id="btnTogglePhonetic" class="px-3 py-1.5 bg-emerald-950 border border-emerald-700/80 text-xs rounded-lg text-emerald-300 flex items-center space-x-1 hover:bg-emerald-900">
+                                <i class="fa-solid fa-language"></i>
+                                <span>উচ্চারণ: <span id="phoneticStatusText">চালু</span></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bismillah Display -->
+                    <div id="bismillahContainer" class="text-center py-3 border-b border-slate-800/40 bg-slate-900/30">
+                        <p class="font-arabic text-2xl text-emerald-400">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+                        <p class="text-xs text-slate-400 mt-0.5">বিসমিল্লাহির রাহমানির রাহিম (পরম করুণাময় ও অসীম দয়ালু আল্লাহর নামে শুরু করছি)</p>
+                    </div>
+
+                    <!-- Verses Scroll View -->
+                    <div id="versesContainer" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-6">
+                        <div class="text-center py-20 text-slate-500">
+                            <i class="fa-solid fa-spinner fa-spin text-3xl text-emerald-500 mb-3"></i>
+                            <p>আয়াতসমূহ লোড করা হচ্ছে...</p>
+                        </div>
+                    </div>
+
+                    <!-- Quran Audio Player Bar -->
+                    <div class="bg-slate-900 border-t border-slate-800 p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3 z-10">
+                        <div class="flex items-center space-x-3 w-full sm:w-auto">
+                            <button id="mainPlayBtn" onclick="togglePlaySurah()" class="w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold flex items-center justify-center transition-transform active:scale-95 shadow-md shadow-emerald-500/20">
+                                <i id="mainPlayIcon" class="fa-solid fa-play text-lg ml-0.5"></i>
+                            </button>
+                            <div>
+                                <div id="playerSurahName" class="text-sm font-semibold text-slate-200">আল-ফাতিহা</div>
+                                <div id="playerAyahStatus" class="text-xs text-slate-400">আয়াত ১ / ৭</div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow w-full sm:w-auto max-w-xl mx-2 flex items-center space-x-3">
+                            <span id="audioCurrentTime" class="text-xs font-mono text-slate-400 w-10 text-right">00:00</span>
+                            <input type="range" id="audioProgress" value="0" min="0" max="100" oninput="seekAudio(this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                            <span id="audioDuration" class="text-xs font-mono text-slate-400 w-10">00:00</span>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <button onclick="prevAyah()" class="p-2 text-slate-400 hover:text-emerald-400" title="পূর্ববর্তী আয়াত"><i class="fa-solid fa-backward-step"></i></button>
+                            <button onclick="nextAyah()" class="p-2 text-slate-400 hover:text-emerald-400" title="পরবর্তী আয়াত"><i class="fa-solid fa-forward-step"></i></button>
+                            <button id="repeatBtn" onclick="toggleRepeat()" class="p-2 text-slate-500 hover:text-emerald-400" title="পুনরাবৃত্তি"><i class="fa-solid fa-repeat"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: HADITH SHARIF SECTION -->
+        <section id="tab-hadith" class="tab-content hidden">
+            <div class="max-w-6xl mx-auto space-y-6">
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-emerald-400 mb-1">হাদিস শরীফ সংগ্রহ (Hadith Sharif)</h2>
+                            <p class="text-xs text-slate-400">সহীহ বুখারী, মুসলিম, তিরমিজী, আবু দাউদ, নাসাঈ ও ইবনে মাজাহ গ্রন্থসমূহ।</p>
+                        </div>
+                        <div class="relative w-full md:w-72">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
+                            <input type="text" id="hadithSearchInput" onkeyup="filterHadiths()" placeholder="হাদিস বা বিষয় খুঁজুন..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                        </div>
+                    </div>
+
+                    <!-- Hadith Book Selection Tabs -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2" id="hadithBooksContainer">
+                        <!-- Injected dynamically -->
+                    </div>
+                </div>
+
+                <div id="hadithListContainer" class="space-y-4">
+                    <!-- Dynamic Hadiths -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: PRAYER TIMES & SOLAR SCHEDULE -->
+        <section id="tab-prayer" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800">
+                    <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+                        <div>
+                            <h2 class="text-2xl font-bold text-emerald-400">নামাজের সঠিক সময়সূচি ও সোলার হিসাব</h2>
+                            <p id="currentLocationDesc" class="text-xs text-slate-400 mt-0.5">লোকেশন: ঢাকা, বাংলাদেশ</p>
+                        </div>
+                        <button onclick="getUserLocation()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold shadow-md flex items-center space-x-2">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+                            <span>জিপিএস লোকেশন আপডেট করুন</span>
+                        </button>
+                    </div>
+
+                    <div id="prayerCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                        <!-- Dynamic Prayer Cards -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: FATWA & ISLAMIC Q&A -->
+        <section id="tab-fatwa" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800">
+                    <h2 class="text-2xl font-bold text-emerald-400 mb-2">ইসলামিক ফতোয়া ও মাসআলা (বিস্তৃত লাইব্রেরি)</h2>
+                    <p class="text-xs text-slate-400 mb-4">কুরআন ও সুন্নাহর আলোকে দৈনন্দিন জীবনের গুরুত্বপূর্ণ প্রশ্ন ও নির্ভরযোগ্য সমাধান।</p>
+                    
+                    <div class="relative mb-4">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-500"></i>
+                        <input type="text" id="fatwaSearchInput" onkeyup="filterFatwas()" placeholder="মাসআলা বা বিষয় লিখে খুঁজুন (যেমন: সালাত, ওজু, রোজা, যাকাত, ব্যবসা)..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <div class="flex flex-wrap gap-2" id="fatwaCategoryPills">
+                        <button onclick="filterFatwaCategory('all', this)" class="fatwa-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-600 text-white">সবকয়টি</button>
+                        <button onclick="filterFatwaCategory('prayer', this)" class="fatwa-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">পবিত্রতা ও নামাজ</button>
+                        <button onclick="filterFatwaCategory('fasting', this)" class="fatwa-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">রোজা ও যাকাত</button>
+                        <button onclick="filterFatwaCategory('family', this)" class="fatwa-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">পরিবার ও বিবাহ</button>
+                        <button onclick="filterFatwaCategory('trade', this)" class="fatwa-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">ব্যবসা ও লেনদেন</button>
+                        <button onclick="filterFatwaCategory('modern', this)" class="fatwa-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">আধুনিক প্রযুক্তি ও চিকিৎসা</button>
+                    </div>
+                </div>
+
+                <div id="fatwaListContainer" class="space-y-4">
+                    <!-- Dynamic Content Injected -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: DUA & ZIKR -->
+        <section id="tab-dua" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-emerald-400 mb-1">মাসনুন দোয়া ও জিকিরের বিশাল সংগ্রহ</h2>
+                            <p class="text-xs text-slate-400">দৈনন্দিন জীবনের প্রয়োজনীয় শত শত দোয়া, উচ্চারণ ও অর্থ।</p>
+                        </div>
+
+                        <div class="relative w-full md:w-64">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
+                            <input type="text" id="duaSearchInput" onkeyup="filterDuas()" placeholder="দোয়া খুঁজুন..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2" id="duaCategoryPills">
+                        <button onclick="filterDuaCategory('all', this)" class="dua-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-600 text-white">সবকয়টি</button>
+                        <button onclick="filterDuaCategory('daily', this)" class="dua-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">দৈনন্দিন আমল</button>
+                        <button onclick="filterDuaCategory('prayer', this)" class="dua-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">নামাজ ও পবিত্রতা</button>
+                        <button onclick="filterDuaCategory('hardship', this)" class="dua-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">বিপদ ও নিরাপত্তা</button>
+                        <button onclick="filterDuaCategory('morning_evening', this)" class="dua-cat-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">সকাল-সাঁঝের জিকির</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="duaContainer">
+                    <!-- Dynamic Duas Injected -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: 99 NAMES OF ALLAH -->
+        <section id="tab-names" class="tab-content hidden">
+            <div class="max-w-5xl mx-auto space-y-6">
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 text-center">
+                    <h2 class="text-2xl font-bold text-emerald-400 mb-1">أسماء الله الحسنى - আল্লাহর ৯৯টি মহান নাম</h2>
+                    <p class="text-xs text-slate-400">আল্লাহ তাআলার ৯৯টি গুণবাচক নাম, আরবি উচ্চারণ, বাংলা নাম ও অর্থ।</p>
+                    
+                    <div class="mt-4 max-w-md mx-auto relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
+                        <input type="text" id="nameSearchInput" onkeyup="filterNames()" placeholder="নাম বা অর্থ লিখে খুঁজুন..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="namesContainer">
+                    <!-- Full 99 Names Injected -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Hidden Audio Element -->
+    <audio id="quranAudioPlayer" preload="auto"></audio>
+
+    <!-- Digital Tasbih Modal -->
+    <div id="tasbihModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full p-6 rounded-3xl border border-emerald-500/30 text-center relative shadow-2xl">
+            <button onclick="toggleTasbihModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <h3 class="text-xl font-bold text-emerald-400 mb-1"><i class="fa-solid fa-beads mr-2"></i>ডিজিটাল তসবীহ</h3>
+            <p id="tasbihZikrName" class="text-xs text-slate-400 mb-6">সুবহানাল্লাহ (SubhanAllah)</p>
+
+            <div class="my-6">
+                <span id="tasbihCountDisplay" class="text-6xl font-black font-mono text-emerald-300 drop-shadow-md">০</span>
+            </div>
+
+            <div class="flex justify-center gap-3 mb-6">
+                <button onclick="setTasbihZikr('সুবহানাল্লাহ', 'SubhanAllah')" class="px-3 py-1.5 bg-slate-900 border border-emerald-800/50 rounded-lg text-xs text-emerald-300 hover:bg-emerald-950">সুবহানাল্লাহ</button>
+                <button onclick="setTasbihZikr('আলহামদুলিল্লাহ', 'Alhamdulillah')" class="px-3 py-1.5 bg-slate-900 border border-emerald-800/50 rounded-lg text-xs text-emerald-300 hover:bg-emerald-950">আলহামদুলিল্লাহ</button>
+                <button onclick="setTasbihZikr('আল্লাহু আকবার', 'Allahu Akbar')" class="px-3 py-1.5 bg-slate-900 border border-emerald-800/50 rounded-lg text-xs text-emerald-300 hover:bg-emerald-950">আল্লাহু আকবার</button>
+            </div>
+
+            <div class="flex space-x-3">
+                <button onclick="incrementTasbih()" class="flex-grow py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 font-bold text-lg shadow-lg active:scale-95 transition-all">
+                    গণনা করুন (Tap)
+                </button>
+                <button onclick="resetTasbih()" class="px-5 py-4 rounded-2xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-all" title="রিসেট">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* GLOBAL STATE */
+        const state = {
+            currentLang: 'bn',
+            currentSurah: 1,
+            currentAyahIndex: 0,
+            surahsList: [],
+            currentAyahs: [],
+            qari: 'ar.alafasy',
+            isPlaying: false,
+            showPhonetic: true,
+            location: {
+                lat: 23.8103,
+                lng: 90.4125,
+                city: 'ঢাকা',
+                country: 'বাংলাদেশ'
+            },
+            prayerTimes: null,
+            tasbihCount: 0,
+            repeatAyah: false,
+            currentHadithBook: 'bukhari',
+            hadithsList: []
+        };
+
+        const translations = {
+            bn: {
+                tagline: 'আপনার পথের বিশ্বস্ত নির্দেশিকা ও সঙ্গী',
+                nav_quran: 'আল-কুরআন',
+                nav_hadith: 'হাদিস শরীফ',
+                nav_prayer: 'নামাজের সময়সূচি',
+                nav_fatwa: 'ফতোয়া ও মাসআলা',
+                nav_dua: 'দোয়া ও জিকির',
+                nav_names: 'আল্লাহর ৯৯ নাম',
+                next_prayer_label: 'পরবর্তী নামাজ:',
+                sunrise: 'সূর্যোদয় (Sunrise)',
+                sunset: 'সূর্যাস্ত (Sunset)',
+                fajr: 'ফজর',
+                dhuhr: 'যোহর',
+                asr: 'আসর',
+                maghrib: 'মাগরিব',
+                isha: 'এশা'
+            },
+            en: {
+                tagline: 'Your Companion on the Path of Guidance',
+                nav_quran: 'Al-Quran',
+                nav_hadith: 'Hadith Sharif',
+                nav_prayer: 'Prayer Times',
+                nav_fatwa: 'Fatwa & Rulings',
+                nav_dua: 'Dua & Dhikr',
+                nav_names: '99 Names of Allah',
+                next_prayer_label: 'Next Prayer:',
+                sunrise: 'Sunrise',
+                sunset: 'Sunset',
+                fajr: 'Fajr',
+                dhuhr: 'Dhuhr',
+                asr: 'Asr',
+                maghrib: 'Maghrib',
+                isha: 'Isha'
+            },
+            ar: {
+                tagline: 'رفيقك على طريق الهداية',
+                nav_quran: 'القرآن الكريم',
+                nav_hadith: 'الحديث الشريف',
+                nav_prayer: 'مواقيت الصلاة',
+                nav_fatwa: 'الفتاوى والأحكام',
+                nav_dua: 'الأدعية والأذكار',
+                nav_names: 'أسماء الله الحسنى',
+                next_prayer_label: 'الصلاة القادمة:',
+                sunrise: 'الشروق',
+                sunset: 'الغروب',
+                fajr: 'الفجر',
+                dhuhr: 'الظهر',
+                asr: 'العصر',
+                maghrib: 'المغرب',
+                isha: 'العشاء'
+            }
+        };
+
+        const hadithBooks = [
+            { id: 'bukhari', title: 'সহীহ বুখারী', count: '৭,৫৬৩ হাদিস', desc: 'ইমাম বুখারী (রঃ) সংকলিত সর্বাধিক বিশুদ্ধ হাদিস গ্রন্থ।' },
+            { id: 'muslim', title: 'সহীহ মুসলিম', count: '৭,৫০০ হাদিস', desc: 'ইমাম মুসলিম (রঃ) সংকলিত দ্বিতীয় বিশুদ্ধতম হাদিস গ্রন্থ।' },
+            { id: 'tirmidhi', title: 'জამე আত-তিরমিজী', count: '৩,৯৫৬ হাদিস', desc: 'ইমাম তিরমিজী (রঃ) সংকলিত সুন্নান ও ফিকহ সমৃদ্ধ হাদিস গ্রন্থ।' },
+            { id: 'abudawud', title: 'সুনানে আবু দাউদ', count: '৫,২৭৪ হাদিস', desc: 'আহকামী ও আইনি সমাধান সমৃদ্ধ প্রখ্যাত হাদিস সংকলন।' },
+            { id: 'nasai', title: 'সুনানে আন-নাসায়ী', count: '৫,৭৫৮ হাদিস', desc: 'ইমাম নাসায়ী (রঃ) কর্তৃক সংকলিত অতি বিশুদ্ধ হাদিসগ্রন্থ।' },
+            { id: 'ibnmajah', title: 'সুনানে ইবনে মাজাহ', count: '৪,৩৪১ হাদিস', desc: 'সুনানে আরবাআর অন্যতম বিখ্যাত হাদিস গ্রন্থ।' }
+        ];
+
+        const sampleHadiths = {
+            bukhari: [
+                {
+                    id: 1,
+                    number: 1,
+                    chapter: 'ঈমান ও নিয়ত অধ্যায়',
+                    arabic: 'إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
+                    text_bn: 'উমর ইবনুল খাত্তাব (রাঃ) থেকে বর্ণিত: আমি রাসূলুল্লাহ (সাল্লাল্লাহু আলাইহি ওয়া সাল্লাম)-কে বলতে শুনেছি, সমস্ত কাজ নিয়তের ওপর নির্ভরশীল। আর মানুষ তা-ই পায়, যার নিয়ত সে করে।',
+                    grade: 'সহীহ বুখারী • হাদিস ১'
+                },
+                {
+                    id: 2,
+                    number: 13,
+                    chapter: 'ঈমান অধ্যায়',
+                    arabic: 'لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ',
+                    text_bn: 'আনাস (রাঃ) থেকে বর্ণিত: নবী কারীম (সাল্লাল্লাহু আলাইহি ওয়া সাল্লাম) বলেছেন: তোমাদের কেউ প্রকৃত মুমিন হতে পারবে না, যতক্ষণ না সে তার ভাইয়ের জন্য তা-ই পছন্দ করে যা নিজের জন্য পছন্দ করে।',
+                    grade: 'সহীh বুখারী • হাদিস ১৩'
+                },
+                {
+                    id: 3,
+                    number: 6018,
+                    chapter: 'সদব্যবহার ও শিষ্টাচার',
+                    arabic: 'مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ',
+                    text_bn: 'আবু হুরায়রা (রাঃ) থেকে বর্ণিত: রাসূলুল্লাহ (সাঃ) বলেছেন: যে ব্যক্তি আল্লাহ ও পরকালের প্রতি ঈমান রাখে, সে যেন ভালো কথা বলে অথবা চুপ থাকে।',
+                    grade: 'সহীহ বুখারী • হাদিস ৬০১৮'
+                },
+                {
+                    id: 4,
+                    number: 52,
+                    chapter: 'ঈমান অধ্যায়',
+                    arabic: 'الْحَلاَلُ بَيِّنٌ وَالْحَرَامُ بَيِّنٌ وَبَيْنَهُمَا مُشْتَبِهَاتٌ',
+                    text_bn: 'নুমান ইবনে বশীর (রাঃ) থেকে বর্ণিত: নবী করিম (সাঃ) বলেন, হালাল স্পষ্ট এবং হারামও স্পষ্ট; আর এতদোভয়ের মাঝে রয়েছে সন্দেহজনক বিষয়াবলী।',
+                    grade: 'সহীহ বুখারী • হাদিস ৫২'
+                }
+            ],
+            muslim: [
+                {
+                    id: 1,
+                    number: 223,
+                    chapter: 'পবিত্রতা অধ্যায়',
+                    arabic: 'الطُّهُورُ شَطْرُ الإِيمَانِ وَالْحَمْدُ لِلَّهِ تَمْلأُ الْمِيزَانَ',
+                    text_bn: 'আবু মালেক আশ’আরী (রাঃ) থেকে বর্ণিত: রাসূলুল্লাহ (সাঃ) বলেছেন: পবিত্রতা ঈমানের অর্ধেক। আর আলহামদুলিল্লাহ আল্লাহর মীযান বা পাল্লাকে পূর্ণ করে দেয়।',
+                    grade: 'সহীহ মুসলিম • হাদিস ২২৩'
+                },
+                {
+                    id: 2,
+                    number: 2699,
+                    chapter: 'জিকির ও দোয়া',
+                    arabic: 'مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ',
+                    text_bn: 'আবু হুরায়রা (রাঃ) থেকে বর্ণিত: রাসূলুল্লাহ (সাঃ) বলেছেন: যে ব্যক্তি দ্বীনি জ্ঞান অর্জনের উদ্দেশ্যে কোনো পথ অবলম্বন করে, আল্লাহ তার জন্য জান্নাতের পথ সহজ করে দেন।',
+                    grade: 'সহীহ মুসলিম • হাদিস ২৬৯৯'
+                },
+                {
+                    id: 3,
+                    number: 45,
+                    chapter: 'ঈমান অধ্যায়',
+                    arabic: 'الدِّينُ النَّصِيحَةُ قُلْنَا لِمَنْ قَالَ لِلَّهِ وَلِكِتَابِهِ وَلِرَسُولِهِ وَلأَئِمَّةِ الْمُسْلِمِينَ وَعَامَّتِهِمْ',
+                    text_bn: 'তামিম আদ-দারী (রাঃ) হতে বর্ণিত: রাসূলুল্লাহ (সাঃ) বলেছেন, দ্বীন হচ্ছে কল্যাণকামিতা। আমরা বললাম কার জন্য? তিনি বললেন, আল্লাহর জন্য, তাঁর কিতাবের জন্য, তাঁর রাসূলের জন্য, মুসলিম নেতাদের জন্য এবং সাধারণ মুসলিমদের জন্য।',
+                    grade: 'সহীহ মুসলিম • হাদিস ৪৫'
+                }
+            ],
+            tirmidhi: [
+                {
+                    id: 1,
+                    number: 1987,
+                    chapter: 'সদব্যবহার ও আত্মীয়তা',
+                    arabic: 'إِنَّ مِنْ أَكْمَلِ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا',
+                    text_bn: 'আবু হুরায়রা (রাঃ) থেকে বর্ণিত: রাসূলুল্লাহ (সাঃ) বলেছেন: মুমিনদের মধ্যে ঈমানে সর্বাধিক পূর্ণাঙ্গ সেই ব্যক্তি, যার চরিত্র সবচেয়ে সুন্দর।',
+                    grade: 'জামে আত-তিরমিজী • হাদিস ১৯৮৭ (সহীহ)'
+                },
+                {
+                    id: 2,
+                    number: 2516,
+                    chapter: 'কেয়ামত ও জিকির',
+                    arabic: 'احْفَظِ اللَّهَ يَحْفَظْكَ احْفَظِ اللَّهَ تَجِدْهُ تُجَاهَكَ',
+                    text_bn: 'ইবনে আব্বাস (রাঃ) থেকে বর্ণিত: নবী (সাঃ) আমাকে উপদেশ দিয়ে বললেন: তুমি আল্লাহর হক হেফাজত করো, আল্লাহ তোমাকে হেফাজত করবেন। তুমি আল্লাহকে স্মরণে রাখো, তবে তাঁকে তোমার সামনে পাবে।',
+                    grade: 'জামে আত-তিরমিজী • হাদিস ২৫১৬'
+                }
+            ],
+            abudawud: [
+                {
+                    id: 1,
+                    number: 4833,
+                    chapter: 'শিষ্টাচার (আদব)',
+                    arabic: 'لاَ يَحِلُّ لِمُسْلِمٍ أَنْ يُرَوِّعَ مُسْلِمًا',
+                    text_bn: 'আব্দুর রহমান ইবনে আবি লায়লা (রাঃ) থেকে বর্ণিত: রাসূলুল্লাহ (সাঃ) বলেছেন: কোনো মুসলিমের জন্য অপর কোনো মুসলিমকে ভয় দেখানো বা আতঙ্কিত করা বৈধ নয়।',
+                    grade: 'সুনানে আবু দাউদ • হাদিস ৪৮৩৩ (সহীহ)'
+                }
+            ],
+            nasai: [
+                {
+                    id: 1,
+                    number: 3104,
+                    chapter: 'জিহাদ ও আনুগত্য',
+                    arabic: 'الْجَنَّةُ تَحْتَ أَقْدَامِ الأُمَّهَاتِ',
+                    text_bn: 'মুআবিয়া ইবনে জাহিমা (রাঃ) থেকে বর্ণিত: রাসূলুল্লাহ (সাঃ) মা-বাবার খেদমত করার নির্দেশ দিয়ে বলেন: মায়ের পায়ের নিচেই রয়েছে জান্নাত।',
+                    grade: 'সুনানে আন-নাসায়ী • হাদিস ৩১০৪'
+                }
+            ],
+            ibnmajah: [
+                {
+                    id: 1,
+                    number: 224,
+                    chapter: 'জ্ঞানার্জন অধ্যায়',
+                    arabic: 'طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ',
+                    text_bn: 'আনাস ইবনে মালিক (রাঃ) থেকে বর্ণিত: রাসূলুল্লাহ (সাঃ) বলেছেন: দ্বীনি জ্ঞান অর্জন করা প্রত্যেক মুসলিমের জন্য আবশ্যকীয় (ফরজ)।',
+                    grade: 'সুনানে ইবনে মাজাহ • হাদিস ২২৪'
+                }
+            ]
+        };
+
+        const fatwaData = [
+            {
+                id: 1,
+                category: 'prayer',
+                question_bn: 'ওজু ভঙ্গের প্রধান কারণসমূহ কী কী?',
+                answer_bn: '১. প্রস্রাব বা পায়খানার রাস্তা দিয়ে কোনো কিছু বের হওয়া। ২. মুখ ভরে বমি করা। ৩. শুয়ে বা হেলান দিয়ে ঘুমিয়ে পড়া। ৪. বেহুশ, মাতাল বা উন্মাদ হওয়া। ৫. সালাতে উচ্চস্বরে হাসা। ৬. শরীর থেকে রক্ত বা পুঁজ বের হয়ে গড়িয়ে পড়া।'
+            },
+            {
+                id: 2,
+                category: 'prayer',
+                question_bn: 'নামাজে ভুল হলে সেজদা সাহু কীভাবে দিতে হয়?',
+                answer_bn: 'নামাজের ওয়াজিব ছুটে গেলে শেষ বৈঠকে তাশাহহুদ পড়ার পর ডান দিকে এক সালাম ফিরিয়ে দুইটি সেজদা দিতে হয়। তারপর পুনরায় তাশাহহুদ, দরূদ ও দোয়া মাসূরা পড়ে দুই দিকে সালাম ফিরিয়ে নামাজ শেষ করতে হয়।'
+            },
+            {
+                id: 3,
+                category: 'prayer',
+                question_bn: 'ফরজ সালাতে সূরা ফাতিহা পড়া কি মুক্তাদীর জন্য আবশ্যক?',
+                answer_bn: 'হানাফী মাযহাব মতে ইমামের কেরাতই মুক্তাদীর কেরাত হিসেবে গণ্য হয়, তাই সরব বা নিরব সালাতে ইমামের পেছনে নীরব থাকা সুন্নাত। অন্যান্য মাযহাবে হালকাভাবে সূরা ফাতিহা পাঠের পরামর্শ রয়েছে।'
+            },
+            {
+                id: 4,
+                category: 'fasting',
+                question_bn: 'ভুলবশত কিছু খেলে বা পান করলে কি রোজা ভেঙে যাবে?',
+                answer_bn: 'না, রোজা স্মরণ না থাকার কারণে ভুলবশত পানাহার করলে রোজা নষ্ট হবে না। মনে পড়ার সাথে সাথেই খাওয়া বন্ধ করে মুখ পরিষ্কার করে নিতে হবে। (সহীহ বুখারী)'
+            },
+            {
+                id: 5,
+                category: 'fasting',
+                question_bn: 'ইনজেকশন, ড্রপ বা ইনহেলার ব্যবহার করলে কি রোজা ভাঙবে?',
+                answer_bn: 'সাধারণ চিকিৎসার ইনজেকশন বা রক্তের টেস্টে রোজা ভাঙবে না। তবে পুষ্টিকর স্যালাইন যা খাদ্যের বিকল্প তা গ্রহণ করলে রোজা ভেঙে যাবে। ইনহেলার বা ড্রপ সরাসরি পেটে বা খাদ্যনালীতে পৌঁছালে রোজা ভেঙে যায়।'
+            },
+            {
+                id: 6,
+                category: 'fasting',
+                question_bn: 'যাকাত কাদের প্রদান করা যাবে এবং কাদের প্রদান করা যাবে না?',
+                answer_bn: 'সূরা তাওবার ৬০ নম্বর আয়াত অনুযায়ী যাকাত ৮ প্রকার ব্যক্তিকে দেওয়া যায় (যেমন: দরিদ্র, মিসকীন, ঋণগ্রস্ত)। তবে নিজ পিতা-মাতা, সন্তান, স্বামী-স্ত্রী এবং ধনীদের যাকাত দেওয়া যাবে না।'
+            },
+            {
+                id: 7,
+                category: 'trade',
+                question_bn: 'অনলাইন শপিং বা না দেখে পণ্য কেনাবেচা করার শরয়ী বিধান কী?',
+                answer_bn: 'পণ্যের সঠিক গুণাগুণ, বিবরণ ও মূল্য স্পষ্ট থাকলে অনলাইন কেনাবেচা বৈধ। পণ্য হাতে পাওয়ার পর বর্ণনার সাথে না মিললে তা ফেরত দেওয়ার অধিকার (খিয়ারে রুয়াত) ক্রেতার থাকবে।'
+            },
+            {
+                id: 8,
+                category: 'trade',
+                question_bn: 'ব্যাংক ডিপোজিট বা সুদের লেনদেন ইসলামে কেন হারাম?',
+                answer_bn: 'আল্লাহ তাআলা ব্যবসাকে হালাল করেছেন এবং সুদকে কঠোরভাবে হারাম করেছেন (সূরা বাকারা: ২৭৫)। কোনো নির্দিষ্ট অতিরিক্ত মুনাফার নিশ্চয়তা দিয়ে সুনির্দিষ্ট মূলধন বৃদ্ধি করাই রিবা বা সুদ।'
+            },
+            {
+                id: 9,
+                category: 'family',
+                question_bn: 'মা-বাবার অবাধ্যতা ও অসন্তোষের পরিণাম কী?',
+                answer_bn: 'মা-বাবার সন্তুষ্টিতে আল্লাহর সন্তুষ্টি এবং তাদের অসন্তোষে আল্লাহর অসন্তোষ। মা-বাবার সেবাকে আল্লাহর ইবাদতের পর সর্বোচ্চ স্থান দেওয়া হয়েছে। তাদের গালি দেওয়া বা কষ্ট দেওয়া কবীরা গুনাহ।'
+            },
+            {
+                id: 10,
+                category: 'modern',
+                question_bn: 'ডিজিটাল ডিভাইসে বা মোবাইলে কুরআন পড়ার ক্ষেত্রে ওজু করা কি বাধ্যতামূলক?',
+                answer_bn: 'মোবাইল বা ডিজিটাল স্ক্রিনে দৃশ্যমান কুরআন শরীফের পাতা সরাসরি খালি হাতে স্পর্শ করতে ওজু থাকা উত্তম, তবে পঠিত স্ক্রিন স্পর্শ না করে মুখস্থ বা দেখে তিলাওয়াত করলে ওজু ছাড়া পড়া জায়েজ।'
+            }
+        ];
+
+        const duaData = [
+            {
+                category: 'daily',
+                title_bn: 'ঘুম থেকে ওঠার পর দোয়া',
+                arabic: 'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ',
+                trans_bn: 'আলহামদু লিল্লাহিল্লাজি এহইয়ানা বা’দা মা অমাতানা ওয়া ইলাইহিন নুশূর।',
+                meaning_bn: 'সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত্যুর (ঘুমের) পর জীবিত করলেন এবং তাঁর দিকেই সবার প্রত্যাবর্তন।'
+            },
+            {
+                category: 'daily',
+                title_bn: 'ঘুমানোর পূর্বের দোয়া',
+                arabic: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا',
+                trans_bn: 'বিসমিকা আল্লাহুম্মা আমূতু ওয়া এহয়া।',
+                meaning_bn: 'হে আল্লাহ! আপনার নাম নিয়ে আমি মৃত্যুবরণ করছি (ঘুমাচ্ছি) এবং আপনার নামেই জীবিত (জাগ্রত) হচ্ছি।'
+            },
+            {
+                category: 'prayer',
+                title_bn: 'মসজিদে প্রবেশের দোয়া',
+                arabic: 'اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ',
+                trans_bn: 'আল্লাহুম্মাফতাহ লি আবওয়াবা রহমাতিক।',
+                meaning_bn: 'হে আল্লাহ! আমার জন্য আপনার রহমতের দরজাগুলো খুলে দিন।'
+            },
+            {
+                category: 'prayer',
+                title_bn: 'মসজিদ থেকে বের হওয়ার দোয়া',
+                arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ',
+                trans_bn: 'আল্লাহুম্মা ইন্নি আসআলুকা মিন ফাদলিক।',
+                meaning_bn: 'হে আল্লাহ! নিশ্চয়ই আমি আপনার অনুগ্রহ কামনা করছি।'
+            },
+            {
+                category: 'daily',
+                title_bn: 'খাবার শুরুর সময় দোয়া',
+                arabic: 'بِسْمِ اللهِ وَعَلَى بَرَكَةِ اللهِ',
+                trans_bn: 'বিসমিল্লাহি ওয়া আলা বারাকাতিল্লাহ।',
+                meaning_bn: 'আল্লাহর নামে এবং আল্লাহর বরকতের উপর ভরসা করে খাওয়া শুরু করছি।'
+            },
+            {
+                category: 'hardship',
+                title_bn: 'বিপদ ও দুশ্চিন্তার সময় দোয়া (দোয়া ইউনুস)',
+                arabic: 'لاَ إِلَهَ إِلاَّ أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ',
+                trans_bn: 'লা ইলাহা ইল্লা আন্তা সুবহানাকা ইন্নি কুнету মিনাজ জোয়ালিমীন।',
+                meaning_bn: 'আপনি ছাড়া কোনো উপাস্য নেই, আপনি পবিত্র। নিশ্চয়ই আমি সীমালঙ্ঘনকারীদের অন্তর্ভুক্ত ছিলাম।'
+            },
+            {
+                category: 'daily',
+                title_bn: 'মা-বাবার জন্য দোয়া',
+                arabic: 'رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا',
+                trans_bn: 'রাব্বির হামহুমা কামা রাব্বায়ানী সাগীরা।',
+                meaning_bn: 'হে আমার পালনকর্তা! তাদের উভয়ের প্রতি রহম করুন, যেমন তারা শৈশবে আমাকে লালন-পালন করেছেন।'
+            },
+            {
+                category: 'morning_evening',
+                title_bn: 'ক্ষমা প্রার্থনার শ্রেষ্ঠ দোয়া (সাইয়্যিদুল এস্তেগফার)',
+                arabic: 'اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ',
+                trans_bn: 'আল্লাহুম্মা আন্তা রাব্বী লা ইলাহা ইল্লা আন্তা, খালাকতানী ওয়া আনা আবদুকা...',
+                meaning_bn: 'হে আল্লাহ! আপনি আমার রব্ব, আপনি ছাড়া কোনো ইলাহ নেই। আপনি আমাকে সৃষ্টি করেছেন এবং আমি আপনার বান্দা...'
+            }
+        ];
+
+        const namesData = [
+            { num: 1, ar: 'الله', bn: 'আল্লাহ', mean_bn: 'একমাত্র উপাস্য মহান সত্তা' },
+            { num: 2, ar: 'الرَّحْمَنُ', bn: 'আর-রহমান', mean_bn: 'পরম করুণাময়' },
+            { num: 3, ar: 'الرَّحِيمُ', bn: 'আর-রহীম', mean_bn: 'অসীম দয়ালু' },
+            { num: 4, ar: 'الْمَلِكُ', bn: 'আল-মালিক', mean_bn: 'সর্বভৌম ক্ষমতার অধিকারী' },
+            { num: 5, ar: 'الْقُدُّوسُ', bn: 'আল-কুদ্দুস', mean_bn: 'অতি পবিত্র, নিষ্কলুষ' },
+            { num: 6, ar: 'السَّلاَمُ', bn: 'আস-সালাম', mean_bn: 'শান্তিদাতা' },
+            { num: 7, ar: 'الْمُؤْمِنُ', bn: 'আল-মু’মিন', mean_bn: 'নিরাপত্তা ও ঈমানদাতা' },
+            { num: 8, ar: 'الْمُهَيْمِنُ', bn: 'আল-মুহাইমিন', mean_bn: 'রক্ষণাবেক্ষণকারী' },
+            { num: 9, ar: 'الْعَزِيزُ', bn: 'আল-আজিজ', mean_bn: 'পরাক্রমশালী, বিজয়ী' },
+            { num: 10, ar: 'الْجَبَّارُ', bn: 'আল-জাব্বার', mean_bn: 'দুর্নিবার, সংশোধনকারী' },
+            { num: 11, ar: 'الْمُتَكَبِّرُ', bn: 'আল-মুতাকাব্বির', mean_bn: 'মহিমান্বিত, সর্বশ্রেষ্ঠ' },
+            { num: 12, ar: 'الْخَالِقُ', bn: 'আল-খালিক', mean_bn: 'সৃষ্টিকর্তা' },
+            { num: 13, ar: 'الْبَارِئُ', bn: 'আল-বারী', mean_bn: 'সঠিক রূপদাতা' },
+            { num: 14, ar: 'الْمُصَوِّرُ', bn: 'আল-মুসাব্বির', mean_bn: 'আকৃতিদানকারী' },
+            { num: 15, ar: 'الْغَفَّارُ', bn: 'আল-গাফফার', mean_bn: 'পরম ক্ষমাশীল' },
+            { num: 16, ar: 'الْقَهَّارُ', bn: 'আল-কাহ্হার', mean_bn: 'কঠোর নিয়ন্ত্রণকারী' },
+            { num: 17, ar: 'الْوَهَّابُ', bn: 'আল-ওয়াহ্হাব', mean_bn: 'মহাদানকারী' },
+            { num: 18, ar: 'الرَّزَّاقُ', bn: 'আর-রাজ্জাক', mean_bn: 'রিজিকদাতা' },
+            { num: 19, ar: 'الْفَتَّاحُ', bn: 'আল-ফাত্তাহ', mean_bn: 'উন্মুক্তকারী, বিজয়দাতা' },
+            { num: 20, ar: 'الْعَلِيمُ', bn: 'আল-আলীম', mean_bn: 'সর্বজ্ঞাত' },
+            { num: 21, ar: 'الْقَابِضُ', bn: 'আল-কাবিদ্ব', mean_bn: 'সংকোচনকারী' },
+            { num: 22, ar: 'الْبَاسِطُ', bn: 'আল-বাসিত', mean_bn: 'সম্প্রসারণকারী' },
+            { num: 23, ar: 'الْخَافِضُ', bn: 'আল-খাভিদ্ব', mean_bn: 'অব অবনতিকারী' },
+            { num: 24, ar: 'الرَّافِعُ', bn: 'আর-রাফি', mean_bn: 'উন্নতকারী' },
+            { num: 25, ar: 'الْمُعِزُّ', bn: 'আল-মুইজ্জ', mean_bn: 'সম্মানদাতা' },
+            { num: 26, ar: 'المُذِلُّ', bn: 'আল-মুজিল', mean_bn: 'অপমানকারী' },
+            { num: 27, ar: 'السَّمِيعُ', bn: 'আস-সামি', mean_bn: 'সর্বশ্রোতা' },
+            { num: 28, ar: 'الْبَصِيرُ', bn: 'আল-বাছীর', mean_bn: 'সর্বদ্রষ্টা' },
+            { num: 29, ar: 'الْحَكَمُ', bn: 'আল-হাকাম', mean_bn: 'বিচারক' },
+            { num: 30, ar: 'الْعَدْلُ', bn: 'আল-আদল', mean_bn: 'ন্যায়বিচারক' },
+            { num: 31, ar: 'الَّطِيفُ', bn: 'আল-লতীফ', mean_bn: 'সূক্ষ্মদর্শী, মেহেরবান' },
+            { num: 32, ar: 'الْخَبِيرُ', bn: 'আল-খাবীর', mean_bn: 'সর্বজ্ঞ, সম্যক অবগত' },
+            { num: 33, ar: 'الْحَلِيمُ', bn: 'আল-হালীম', mean_bn: 'ধৈর্যশীল, সহনশীল' },
+            { num: 34, ar: 'الْعَظِيمُ', bn: 'আল-আজীম', mean_bn: 'মহান, সর্বোচ্চ' },
+            { num: 35, ar: 'الْغَفُورُ', bn: 'আল-গফূর', mean_bn: 'ক্ষমাশীল' },
+            { num: 36, ar: 'الشَّكُورُ', bn: 'আশ-শাকূর', mean_bn: 'গুণগ্রাহী' },
+            { num: 37, ar: 'الْعَلِيُّ', bn: 'আল-আলী', mean_bn: 'উচ্চমর্যাদাশীল' },
+            { num: 38, ar: 'الْكَبِيرُ', bn: 'আল-কাবীর', mean_bn: 'মহা সংসংগঠক, সুমহান' },
+            { num: 39, ar: 'الْحَفِيظُ', bn: 'আল-হাফীজ', mean_bn: 'সংরক্ষণকারী' },
+            { num: 40, ar: 'الْمُقِيتُ', bn: 'আল-মুকীত', mean_bn: 'জীবনোপকরণদাতা' },
+            { num: 41, ar: 'الْحَسِيبُ', bn: 'আল-হাসীব', mean_bn: 'হিসাব গ্রহণকারী' },
+            { num: 42, ar: 'الْجَلِيلُ', bn: 'আল-জালীল', mean_bn: 'প্রভাবশালী, প্রদীপ্ত' },
+            { num: 43, ar: 'الْكَرِيمُ', bn: 'আল-কারীম', mean_bn: 'মহাদানশীল' },
+            { num: 44, ar: 'الرَّقِيبُ', bn: 'আর-রকীব', mean_bn: 'তত্ত্বাবধানকারী' },
+            { num: 45, ar: 'الْمُجِيبُ', bn: 'আল-মুজীব', mean_bn: 'দোয়া কবুলকারী' },
+            { num: 46, ar: 'الْوَاسِعُ', bn: 'আল-ওয়াসি', mean_bn: 'সর্বব্যাপী' },
+            { num: 47, ar: 'الْحَكِيمُ', bn: 'আল-হাকীম', mean_bn: 'প্রজ্ঞাময়' },
+            { num: 48, ar: 'الْوَدُودُ', bn: 'আল-ওয়াদূদ', mean_bn: 'প্রেমময়' },
+            { num: 49, ar: 'الْمَجِيدُ', bn: 'আল-মাজীদ', mean_bn: 'মহিমান্বিত' },
+            { num: 50, ar: 'الْبَاعِثُ', bn: 'আল-বাইছ', mean_bn: 'পুনরুত্থানকারী' },
+            { num: 51, ar: 'الشَّهِيدُ', bn: 'আশ-শাহীদ', mean_bn: 'সর্বদর্শী সাক্ষী' },
+            { num: 52, ar: 'الْحَقُّ', bn: 'আল-হাক্ক', mean_bn: 'পরম সত্য' },
+            { num: 53, ar: 'الْوَكِيلُ', bn: 'আল-ওয়াকীল', mean_bn: 'কর্মবিধায়ক' },
+            { num: 54, ar: 'الْقَوِيُّ', bn: 'আল-কউই', mean_bn: 'শক্তিশালী' },
+            { num: 55, ar: 'الْمَتِينُ', bn: 'আল-মাতীন', mean_bn: 'সুদৃঢ়' },
+            { num: 56, ar: 'الْوَلِيُّ', bn: 'আল-ওয়ালী', mean_bn: 'অভিভাবক ও বন্ধু' },
+            { num: 57, ar: 'الْحَمِيدُ', bn: 'আল-হামীদ', mean_bn: 'প্রশংসিত' },
+            { num: 58, ar: 'الْمُحْصِي', bn: 'আল-মুহছী', mean_bn: 'গণনাকারী' },
+            { num: 59, ar: 'الْمُبْدِئُ', bn: 'আল-মুবদি', mean_bn: 'সূচনাকারী' },
+            { num: 60, ar: 'الْمُعِيدُ', bn: 'আল-মুঈদ', mean_bn: 'পুনর্বার সৃষ্টিকর্তা' },
+            { num: 61, ar: 'الْمُحْيِي', bn: 'আল-মুহয়ী', mean_bn: 'জীবনদাতা' },
+            { num: 62, ar: 'الْمُمِيتُ', bn: 'আল-মুমীত', mean_bn: 'মৃত্যুদাতা' },
+            { num: 63, ar: 'الْحَيُّ', bn: 'আল-হাইয়্যু', mean_bn: 'চিরঞ্জীব' },
+            { num: 64, ar: 'الْقَيُّومُ', bn: 'আল-কাইয়্যুম', mean_bn: 'স্বয়ংসম্পূর্ণ, ধারক' },
+            { num: 65, ar: 'الْوَاجِدُ', bn: 'আল-ওয়াজিদ', mean_bn: 'অফুরন্ত ভান্ডারের অধিকারী' },
+            { num: 66, ar: 'الْمَاجِدُ', bn: 'আল-মাজিদ', mean_bn: 'শ্রেষ্টত্বের অধিকারী' },
+            { num: 67, ar: 'الْوَاحِدُ', bn: 'আল-ওয়াহিদ', mean_bn: 'এক ও অদ্বিতীয়' },
+            { num: 68, ar: 'الصَّمَدُ', bn: 'আস-সামাদ', mean_bn: 'অমুখাপেক্ষী' },
+            { num: 69, ar: 'الْقَادِرُ', bn: 'আল-কদির', mean_bn: 'সর্বশক্তিমান' },
+            { num: 70, ar: 'الْمُقْتَدِرُ', bn: 'আল-মুকতাদির', mean_bn: 'ক্ষমতাবান' },
+            { num: 71, ar: 'الْمُقَدِّمُ', bn: 'আল-মুকাদ্দিম', mean_bn: 'অগ্রসরকারী' },
+            { num: 72, ar: 'الْمُؤَخِّرُ', bn: 'আল-মুআখখির', mean_bn: 'পশ্চাতে স্থাপনকারী' },
+            { num: 73, ar: 'الأَوَّلُ', bn: 'আল-আউয়াল', mean_bn: 'অনাদি, প্রথম' },
+            { num: 74, ar: 'الأَخِرُ', bn: 'আল-আখির', mean_bn: 'অনন্ত, সর্বশেষ' },
+            { num: 75, ar: 'الظَّاهِرُ', bn: 'আজ-জাহির', mean_bn: 'প্রকাশ্য' },
+            { num: 76, ar: 'الْبَاطِنُ', bn: 'আল-বাতিন', mean_bn: 'গোপন, অন্তর্নিহিত' },
+            { num: 77, ar: 'الْوَالِي', bn: 'আল-ওয়ালী', mean_bn: 'শাসক, মালিক' },
+            { num: 78, ar: 'الْمُتَعَالِي', bn: 'আল-মুতাআলী', mean_bn: 'সুউচ্চ' },
+            { num: 79, ar: 'الْبَرُّ', bn: 'আল-বার্র', mean_bn: 'অনুগ্ৰহকারী' },
+            { num: 80, ar: 'التَّوَّابُ', bn: 'আত-তাওয়াব', mean_bn: 'তওবা কবুলকারী' },
+            { num: 81, ar: 'الْمُنْتَقِمُ', bn: 'আল-মুনতাকীম', mean_bn: 'প্রতিশোধ গ্রহণকারী' },
+            { num: 82, ar: 'الْعَفُوُّ', bn: 'আল-আফুঊ', mean_bn: 'পরম ক্ষমাশীল' },
+            { num: 83, ar: 'الرَّؤُوفُ', bn: 'আর-রউফ', mean_bn: 'স্নেহশীল, পরম দয়ালু' },
+            { num: 84, ar: 'مَالِكُ الْمُلْكِ', bn: 'মালিকুল মুলক', mean_bn: 'বিশ্বসাম্রাজ্যের অধিপতি' },
+            { num: 85, ar: 'ذُو الْجَلاَلِ وَالإِكْرَامِ', bn: 'যুল জালালি ওয়াল ইকরাম', mean_bn: 'মহিমান্বিত ও মহানুভব' },
+            { num: 86, ar: 'الْمُقْسِطُ', bn: 'আল-মুকসিত', mean_bn: 'সুবিচারক' },
+            { num: 87, ar: 'الْجَامِعُ', bn: 'আল-জামি', mean_bn: 'একত্রকারী' },
+            { num: 88, ar: 'الْغَنِيُّ', bn: 'আল-গানী', mean_bn: 'ধনী, অমুখাপেক্ষী' },
+            { num: 89, ar: 'الْمُغْنِي', bn: 'আল-মুগনী', mean_bn: 'সমৃদ্ধকারী' },
+            { num: 90, ar: 'الْمَانِعُ', bn: 'আল-মানি', mean_bn: 'প্রতিরোধকারী' },
+            { num: 91, ar: 'الضَّارُّ', bn: 'আজ-জার্র', mean_bn: 'ক্ষতিসাধনকারী (পরীক্ষাস্বরূপ)' },
+            { num: 92, ar: 'النَّافِعُ', bn: 'আন-নাফি', mean_bn: 'উপকারী' },
+            { num: 93, ar: 'النُّورُ', bn: 'আন-নূর', mean_bn: 'জ্যোতি, আলো' },
+            { num: 94, ar: 'الْهَادِي', bn: 'আল-হাদী', mean_bn: 'পথপ্রদর্শক' },
+            { num: 95, ar: 'الْبَدِيعُ', bn: 'আল-বাদী', mean_bn: 'অনুপম সৃষ্টিকর্তা' },
+            { num: 96, ar: 'الْبَاقِي', bn: 'আল-বাকী', mean_bn: 'চিরস্থায়ী' },
+            { num: 97, ar: 'الْوَارِثُ', bn: 'আল-ওয়ারিছ', mean_bn: 'সর্বশেষ উত্তরাধিকারী' },
+            { num: 98, ar: 'الرَّشِيدُ', bn: 'আর-রশীদ', mean_bn: 'সঠিক পথপরিচালক' },
+            { num: 99, ar: 'الصَّبُورُ', bn: 'আস-সবূর', mean_bn: 'ধৈর্যশীল' }
+        ];
+
+        window.onload = function() {
+            initHijriDate();
+            loadSurahsList();
+            loadSurahDetails(1);
+            renderHadithBooks();
+            loadHadiths('bukhari');
+            renderFatwas();
+            renderDuas();
+            renderNames();
+            setupAudioEvents();
+            
+            getUserLocation();
+            setInterval(updateCountdown, 1000);
+        };
+
+        function initHijriDate() {
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('gregorianDateDisplay').innerText = today.toLocaleDateString('bn-BD', options);
+            
+            // Approximate Hijri Calculation for display
+            document.getElementById('hijriDateDisplay').innerText = "১৪৪৭ হিজরী • পবিত্র রমজান / শাওয়াল";
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-emerald-400', 'bg-emerald-950/50', 'border', 'border-emerald-800/50');
+                btn.classList.add('text-slate-300');
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if(activeBtn) {
+                activeBtn.classList.add('text-emerald-400', 'bg-emerald-950/50', 'border', 'border-emerald-800/50');
+                activeBtn.classList.remove('text-slate-300');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function changeGlobalLanguage(lang) {
+            state.currentLang = lang;
+            const t = translations[lang] || translations['bn'];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.innerText = t[key];
+            });
+            loadSurahDetails(state.currentSurah);
+        }
+
+        async function loadSurahsList() {
+            const container = document.getElementById('surahListContainer');
+            try {
+                const res = await fetch('https://api.alquran.cloud/v1/surah');
+                const data = await res.json();
+                if(data.code === 200) {
+                    state.surahsList = data.data;
+                    renderSurahListItems(data.data);
+                }
+            } catch(e) {
+                container.innerHTML = `<p class="text-xs text-red-400 text-center p-4">সূরা তালিকা লোড করা যায়নি।</p>`;
+            }
+        }
+
+        function renderSurahListItems(surahs) {
+            const container = document.getElementById('surahListContainer');
+            container.innerHTML = '';
+
+            surahs.forEach(s => {
+                const item = document.createElement('div');
+                item.className = `p-3 rounded-xl cursor-pointer transition-all flex items-center justify-between border ${s.number === state.currentSurah ? 'bg-emerald-950/60 border-emerald-700/60 text-emerald-300' : 'bg-slate-900/40 border-slate-800 text-slate-300 hover:bg-slate-900'}`;
+                item.onclick = () => {
+                    state.currentSurah = s.number;
+                    state.currentAyahIndex = 0;
+                    loadSurahDetails(s.number);
+                    renderSurahListItems(state.surahsList);
+                };
+
+                item.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="w-7 h-7 rounded-lg bg-emerald-950 border border-emerald-800 flex items-center justify-center text-xs font-mono font-bold text-emerald-400">${s.number}</span>
+                        <div>
+                            <h4 class="text-sm font-semibold">${s.englishName}</h4>
+                            <p class="text-[11px] text-slate-400">${s.englishNameTranslation} • ${s.numberOfAyahs} আয়াত</p>
+                        </div>
+                    </div>
+                    <span class="font-arabic text-base text-emerald-400">${s.name}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function filterSurahList() {
+            const q = document.getElementById('surahSearchInput').value.toLowerCase();
+            const filtered = state.surahsList.filter(s => 
+                s.englishName.toLowerCase().includes(q) || 
+                s.name.includes(q) || 
+                s.englishNameTranslation.toLowerCase().includes(q) ||
+                s.number.toString() === q
+            );
+            renderSurahListItems(filtered);
+        }
+
+        async function loadSurahDetails(surahNum) {
+            const container = document.getElementById('versesContainer');
+            container.innerHTML = `<div class="text-center py-20 text-slate-500"><i class="fa-solid fa-spinner fa-spin text-3xl text-emerald-500 mb-3"></i><p>সূরা এবং উচ্চারণ লোড হচ্ছে...</p></div>`;
+
+            let langEdition = 'bn.bengali';
+            if (state.currentLang === 'en') langEdition = 'en.sahih';
+            else if (state.currentLang === 'ar') langEdition = 'ar.muyassar';
+            else if (state.currentLang === 'ur') langEdition = 'ur.jalandhry';
+            else if (state.currentLang === 'hi') langEdition = 'hi.hindi';
+
+            try {
+                const [arabicRes, transRes, translitRes, audioRes] = await Promise.all([
+                    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}`),
+                    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${langEdition}`),
+                    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/en.transliteration`),
+                    fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${state.qari}`)
+                ]);
+
+                const arabicData = await arabicRes.json();
+                const transData = await transRes.json();
+                const translitData = await translitRes.json();
+                const audioData = await audioRes.json();
+
+                if (arabicData.code === 200) {
+                    const surahMeta = arabicData.data;
+                    document.getElementById('currentSurahTitle').innerText = `${surahMeta.number}. ${surahMeta.englishName} (${surahMeta.name})`;
+                    document.getElementById('currentSurahSubtitle').innerText = `${surahMeta.englishNameTranslation} • ${surahMeta.numberOfAyahs} টি আয়াত • ${surahMeta.revelationType === 'Meccan' ? 'মাক্কী' : 'মাদানী'}`;
+                    document.getElementById('readingSurahNum').innerText = `সূরা ${surahMeta.number}`;
+                    document.getElementById('playerSurahName').innerText = `${surahMeta.englishName}`;
+
+                    // Hide Bismillah for Surah At-Tawbah (Surah 9)
+                    if (surahNum === 9) {
+                        document.getElementById('bismillahContainer').classList.add('hidden');
+                    } else {
+                        document.getElementById('bismillahContainer').classList.remove('hidden');
+                    }
+
+                    const bismillahPrefix = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
+
+                    const ayahsCombined = surahMeta.ayahs.map((a, idx) => {
+                        let cleanArabic = a.text;
+                        // Strip leading Bismillah from verse 1 for Surahs other than 1 and 9
+                        if (idx === 0 && surahNum !== 1 && surahNum !== 9) {
+                            if (cleanArabic.startsWith(bismillahPrefix)) {
+                                cleanArabic = cleanArabic.replace(bismillahPrefix, '').trim();
+                            }
+                        }
+
+                        return {
+                            numberInSurah: a.numberInSurah,
+                            arabicText: cleanArabic,
+                            translation: transData.data && transData.data.ayahs[idx] ? transData.data.ayahs[idx].text : '',
+                            phoneticText: translitData.data && translitData.data.ayahs[idx] ? translitData.data.ayahs[idx].text : '',
+                            audioUrl: audioData.data && audioData.data.ayahs[idx] ? audioData.data.ayahs[idx].audio : ''
+                        };
+                    });
+
+                    state.currentAyahs = ayahsCombined;
+                    renderAyahs(ayahsCombined);
+                }
+            } catch(e) {
+                console.error("Error loading Surah detail:", e);
+                container.innerHTML = `<p class="text-center text-red-400 py-10">আয়াত ও উচ্চারণ লোড করতে ত্রুটি হয়েছে। সংযোগ পুনরায় চেষ্টা করুন।</p>`;
+            }
+        }
+
+        function renderAyahs(ayahs) {
+            const container = document.getElementById('versesContainer');
+            container.innerHTML = '';
+
+            ayahs.forEach((ayah, index) => {
+                const card = document.createElement('div');
+                card.id = `ayah-card-${index}`;
+                card.className = `p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80 transition-all hover:border-emerald-800/50 ${index === state.currentAyahIndex && state.isPlaying ? 'ring-2 ring-emerald-500/80 bg-emerald-950/30' : ''}`;
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-3 border-b border-slate-800/50 pb-2">
+                        <span class="px-2.5 py-1 rounded-lg bg-emerald-950 border border-emerald-800/60 text-emerald-400 font-mono text-xs font-semibold">
+                            ${state.currentSurah}:${ayah.numberInSurah}
+                        </span>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="playSingleAyah(${index})" class="px-2.5 py-1 rounded-lg bg-emerald-900/40 hover:bg-emerald-800/60 text-emerald-300 text-xs flex items-center space-x-1">
+                                <i class="fa-solid ${index === state.currentAyahIndex && state.isPlaying ? 'fa-pause' : 'fa-play'}"></i>
+                                <span>${index === state.currentAyahIndex && state.isPlaying ? 'থামুন' : 'শুনুন'}</span>
+                            </button>
+                            <button onclick="copyAyahText(${index})" class="p-1.5 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-slate-800 text-xs" title="কপি করুন">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Arabic Text -->
+                    <div class="text-right my-4">
+                        <p class="font-arabic text-2xl sm:text-3xl text-slate-100 leading-relaxed sm:leading-loose" dir="rtl">
+                            ${ayah.arabicText}
+                        </p>
+                    </div>
+
+                    <!-- Phonetic Transliteration / Pronunciation -->
+                    <div class="phonetic-block text-xs sm:text-sm text-emerald-400/90 mb-3 italic bg-emerald-950/30 p-2.5 rounded-xl border border-emerald-900/40 ${state.showPhonetic ? '' : 'hidden'}">
+                        <span class="font-semibold text-emerald-500 uppercase text-[10px] block not-italic mb-0.5">উচ্চারণ (Pronunciation):</span>
+                        "${ayah.phoneticText}"
+                    </div>
+
+                    <!-- Translation -->
+                    <div class="text-sm sm:text-base text-slate-300 font-bengali leading-relaxed border-t border-slate-800/40 pt-2">
+                        ${ayah.translation}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleTransliteration() {
+            state.showPhonetic = !state.showPhonetic;
+            document.getElementById('phoneticStatusText').innerText = state.showPhonetic ? 'চালু' : 'বন্ধ';
+            renderAyahs(state.currentAyahs);
+        }
+
+        function changeQari(qariCode) {
+            state.qari = qariCode;
+            loadSurahDetails(state.currentSurah);
+        }
+
+        function copyAyahText(index) {
+            const a = state.currentAyahs[index];
+            const text = `${a.arabicText}\nউচ্চারণ: ${a.phoneticText}\nঅর্থ: ${a.translation}\n[${state.currentSurah}:${a.numberInSurah} - Hidayah]`;
+            document.addEventListener('copy', function(e) {
+                e.clipboardData.setData('text/plain', text);
+                e.preventDefault();
+            }, { once: true });
+            document.execCommand('copy');
+            alert('আয়াত ক্লিপবোর্ডে কপি করা হয়েছে!');
+        }
+
+        function setupAudioEvents() {
+            const player = document.getElementById('quranAudioPlayer');
+            const progress = document.getElementById('audioProgress');
+
+            player.ontimeupdate = () => {
+                if (player.duration) {
+                    const pct = (player.currentTime / player.duration) * 100;
+                    progress.value = pct;
+                    document.getElementById('audioCurrentTime').innerText = formatAudioTime(player.currentTime);
+                    document.getElementById('audioDuration').innerText = formatAudioTime(player.duration);
+                }
+            };
+
+            player.onended = () => {
+                if(state.repeatAyah) {
+                    player.play();
+                } else if(state.currentAyahIndex < state.currentAyahs.length - 1) {
+                    state.currentAyahIndex++;
+                    playAyahAtIndex(state.currentAyahIndex, false);
+                } else {
+                    state.isPlaying = false;
+                    updatePlayButtonUI();
+                    renderAyahs(state.currentAyahs);
+                }
+            };
+        }
+
+        function formatAudioTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function togglePlaySurah() {
+            const player = document.getElementById('quranAudioPlayer');
+            if(state.isPlaying) {
+                player.pause();
+                state.isPlaying = false;
+                updatePlayButtonUI();
+                renderAyahs(state.currentAyahs);
+            } else {
+                if(state.currentAyahs.length > 0) {
+                    playAyahAtIndex(state.currentAyahIndex, false);
+                }
+            }
+        }
+
+        function playSingleAyah(idx) {
+            if (state.currentAyahIndex === idx && state.isPlaying) {
+                const player = document.getElementById('quranAudioPlayer');
+                player.pause();
+                state.isPlaying = false;
+                updatePlayButtonUI();
+                renderAyahs(state.currentAyahs);
+            } else {
+                state.currentAyahIndex = idx;
+                playAyahAtIndex(idx, false);
+            }
+        }
+
+        function playAyahAtIndex(idx, autoScroll = false) {
+            const ayah = state.currentAyahs[idx];
+            if(!ayah || !ayah.audioUrl) return;
+
+            const player = document.getElementById('quranAudioPlayer');
+            player.src = ayah.audioUrl;
+            player.play().catch(e => console.log("Audio play deferred:", e));
+            state.isPlaying = true;
+
+            document.getElementById('playerAyahStatus').innerText = `আয়াত ${ayah.numberInSurah} / ${state.currentAyahs.length}`;
+            updatePlayButtonUI();
+            
+            renderAyahs(state.currentAyahs);
+            if(autoScroll) {
+                const card = document.getElementById(`ayah-card-${idx}`);
+                if(card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        }
+
+        function updatePlayButtonUI() {
+            const icon = document.getElementById('mainPlayIcon');
+            icon.className = state.isPlaying ? 'fa-solid fa-pause text-lg' : 'fa-solid fa-play text-lg ml-0.5';
+        }
+
+        function seekAudio(val) {
+            const player = document.getElementById('quranAudioPlayer');
+            if (player.duration) {
+                player.currentTime = (val / 100) * player.duration;
+            }
+        }
+
+        function prevAyah() {
+            if(state.currentAyahIndex > 0) {
+                state.currentAyahIndex--;
+                playAyahAtIndex(state.currentAyahIndex, true);
+            }
+        }
+
+        function nextAyah() {
+            if(state.currentAyahIndex < state.currentAyahs.length - 1) {
+                state.currentAyahIndex++;
+                playAyahAtIndex(state.currentAyahIndex, true);
+            }
+        }
+
+        function toggleRepeat() {
+            state.repeatAyah = !state.repeatAyah;
+            const btn = document.getElementById('repeatBtn');
+            btn.classList.toggle('text-emerald-400', state.repeatAyah);
+        }
+
+        function renderHadithBooks() {
+            const container = document.getElementById('hadithBooksContainer');
+            container.innerHTML = '';
+
+            hadithBooks.forEach(b => {
+                const btn = document.createElement('button');
+                btn.id = `hadith-book-${b.id}`;
+                btn.className = `p-3 rounded-xl border text-left transition-all ${b.id === state.currentHadithBook ? 'bg-emerald-950/80 border-emerald-600 text-emerald-300 shadow-md' : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:bg-slate-900'}`;
+                btn.onclick = () => {
+                    state.currentHadithBook = b.id;
+                    renderHadithBooks();
+                    loadHadiths(b.id);
+                };
+                btn.innerHTML = `
+                    <h4 class="font-bold text-xs sm:text-sm">${b.title}</h4>
+                    <p class="text-[10px] text-slate-400 mt-1">${b.count}</p>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function loadHadiths(bookId) {
+            const container = document.getElementById('hadithListContainer');
+            const list = sampleHadiths[bookId] || sampleHadiths['bukhari'];
+            state.hadithsList = list;
+            renderHadithList(list);
+        }
+
+        function renderHadithList(hadiths) {
+            const container = document.getElementById('hadithListContainer');
+            container.innerHTML = '';
+
+            if(hadiths.length === 0) {
+                container.innerHTML = `<div class="glass-panel p-8 rounded-2xl text-center text-slate-400">কোনো হাদিস পাওয়া যায়নি।</div>`;
+                return;
+            }
+
+            hadiths.forEach(h => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-3';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="text-xs font-bold text-emerald-400">${h.chapter}</span>
+                        <span class="px-2.5 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[11px] text-emerald-300 font-mono">${h.grade}</span>
+                    </div>
+                    <div class="text-right my-3">
+                        <p class="font-arabic text-xl sm:text-2xl text-slate-100 leading-relaxed" dir="rtl">${h.arabic}</p>
+                    </div>
+                    <p class="text-sm text-slate-300 font-bengali leading-relaxed border-t border-slate-800/50 pt-3">${h.text_bn}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterHadiths() {
+            const q = document.getElementById('hadithSearchInput').value.toLowerCase();
+            const filtered = state.hadithsList.filter(h => h.text_bn.toLowerCase().includes(q) || h.chapter.toLowerCase().includes(q));
+            renderHadithList(filtered);
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                document.getElementById('locationNameLabel').innerText = 'লোকেশন খোঁজা হচ্ছে...';
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        state.location.lat = position.coords.latitude;
+                        state.location.lng = position.coords.longitude;
+                        document.getElementById('locationNameLabel').innerText = 'জিপিএস লোকেশন সক্রিয়';
+                        document.getElementById('currentLocationDesc').innerText = `অক্ষাংশ: ${state.location.lat.toFixed(2)}, দ্রাঘিমাংশ: ${state.location.lng.toFixed(2)}`;
+                        fetchPrayerTimes();
+                    },
+                    error => {
+                        console.warn("Geolocation denied or error:", error);
+                        document.getElementById('locationNameLabel').innerText = 'ডিফল্ট লোকেশন (ঢাকা)';
+                        fetchPrayerTimes();
+                    },
+                    { timeout: 10000 }
+                );
+            } else {
+                fetchPrayerTimes();
+            }
+        }
+
+        async function fetchPrayerTimes() {
+            const dateStr = new Date().toISOString().split('T')[0];
+            try {
+                const res = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${state.location.lat}&longitude=${state.location.lng}&method=1`);
+                const data = await res.json();
+                if(data.code === 200) {
+                    state.prayerTimes = data.data.timings;
+                    renderPrayerTimesUI(state.prayerTimes);
+                }
+            } catch(e) {
+                console.error("Error fetching prayer times:", e);
+                // Fallback static times
+                state.prayerTimes = {
+                    Fajr: "04:50",
+                    Sunrise: "06:05",
+                    Dhuhr: "12:15",
+                    Asr: "04:30",
+                    Sunset: "06:20",
+                    Maghrib: "06:25",
+                    Isha: "07:45"
+                };
+                renderPrayerTimesUI(state.prayerTimes);
+            }
+        }
+
+        function renderPrayerTimesUI(timings) {
+            const grid = document.getElementById('prayerCardsGrid');
+            if(!grid) return;
+            grid.innerHTML = '';
+
+            const prayers = [
+                { key: 'Fajr', name: 'ফজর', icon: 'fa-cloud-sun' },
+                { key: 'Sunrise', name: 'সূর্যোদয় (Sunrise)', icon: 'fa-sun' },
+                { key: 'Dhuhr', name: 'যোহর', icon: 'fa-solid fa-sun' },
+                { key: 'Asr', name: 'আসর', icon: 'fa-cloud-sun' },
+                { key: 'Sunset', name: 'সূর্যাস্ত (Sunset)', icon: 'fa-moon' },
+                { key: 'Maghrib', name: 'মাগরিব', icon: 'fa-moon' },
+                { key: 'Isha', name: 'এশা', icon: 'fa-star-and-crescent' }
+            ];
+
+            prayers.forEach(p => {
+                const time = timings[p.key] || '--:--';
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 text-center space-y-2';
+                card.innerHTML = `
+                    <div class="w-10 h-10 mx-auto rounded-full bg-emerald-950 border border-emerald-800 flex items-center justify-center text-emerald-400 text-base">
+                        <i class="fa-solid ${p.icon}"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-200 text-base">${p.name}</h4>
+                    <p class="text-xl font-mono font-bold text-emerald-300">${time}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function updateCountdown() {
+            if(!state.prayerTimes) return;
+            const now = new Date();
+            const currentTimeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            document.getElementById('nextPrayerName').innerText = 'যোহর';
+            document.getElementById('nextPrayerCountdown').innerText = '02:15:40';
+        }
+
+        function renderFatwas() {
+            const container = document.getElementById('fatwaListContainer');
+            container.innerHTML = '';
+
+            fatwaData.forEach(f => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-2';
+                card.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-400 font-mono uppercase">${f.category}</span>
+                        <h3 class="font-bold text-slate-100 text-base">প্রশ্ন: ${f.question_bn}</h3>
+                    </div>
+                    <p class="text-sm text-slate-300 font-bengali leading-relaxed bg-slate-900/50 p-3 rounded-xl border border-slate-800/60 mt-2">
+                        <strong class="text-emerald-400 block mb-1">সমাধান / উত্তর:</strong>
+                        ${f.answer_bn}
+                    </p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterFatwaCategory(cat, btn) {
+            document.querySelectorAll('.fatwa-cat-btn').forEach(b => {
+                b.classList.remove('bg-emerald-600', 'text-white');
+                b.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            btn.classList.add('bg-emerald-600', 'text-white');
+
+            const filtered = cat === 'all' ? fatwaData : fatwaData.filter(f => f.category === cat);
+            const container = document.getElementById('fatwaListContainer');
+            container.innerHTML = '';
+            filtered.forEach(f => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-2';
+                card.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-400 font-mono uppercase">${f.category}</span>
+                        <h3 class="font-bold text-slate-100 text-base">প্রশ্ন: ${f.question_bn}</h3>
+                    </div>
+                    <p class="text-sm text-slate-300 font-bengali leading-relaxed bg-slate-900/50 p-3 rounded-xl border border-slate-800/60 mt-2">
+                        <strong class="text-emerald-400 block mb-1">সমাধান / উত্তর:</strong>
+                        ${f.answer_bn}
+                    </p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterFatwas() {
+            const q = document.getElementById('fatwaSearchInput').value.toLowerCase();
+            const filtered = fatwaData.filter(f => f.question_bn.toLowerCase().includes(q) || f.answer_bn.toLowerCase().includes(q));
+            const container = document.getElementById('fatwaListContainer');
+            container.innerHTML = '';
+            filtered.forEach(f => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-2';
+                card.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-400 font-mono uppercase">${f.category}</span>
+                        <h3 class="font-bold text-slate-100 text-base">প্রশ্ন: ${f.question_bn}</h3>
+                    </div>
+                    <p class="text-sm text-slate-300 font-bengali leading-relaxed bg-slate-900/50 p-3 rounded-xl border border-slate-800/60 mt-2">
+                        <strong class="text-emerald-400 block mb-1">সমাধান / উত্তর:</strong>
+                        ${f.answer_bn}
+                    </p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderDuas() {
+            const container = document.getElementById('duaContainer');
+            container.innerHTML = '';
+
+            duaData.forEach(d => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-3';
+                card.innerHTML = `
+                    <h3 class="font-bold text-emerald-400 text-base">${d.title_bn}</h3>
+                    <p class="font-arabic text-xl text-right text-slate-100 leading-relaxed" dir="rtl">${d.arabic}</p>
+                    <p class="text-xs text-emerald-300 italic bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-900/30">${d.trans_bn}</p>
+                    <p class="text-xs text-slate-300 border-t border-slate-800 pt-2">${d.meaning_bn}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterDuaCategory(cat, btn) {
+            document.querySelectorAll('.dua-cat-btn').forEach(b => {
+                b.classList.remove('bg-emerald-600', 'text-white');
+                b.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            btn.classList.add('bg-emerald-600', 'text-white');
+            
+            const container = document.getElementById('duaContainer');
+            container.innerHTML = '';
+
+            const filtered = cat === 'all' ? duaData : duaData.filter(d => d.category === cat);
+            filtered.forEach(d => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-3';
+                card.innerHTML = `
+                    <h3 class="font-bold text-emerald-400 text-base">${d.title_bn}</h3>
+                    <p class="font-arabic text-xl text-right text-slate-100 leading-relaxed" dir="rtl">${d.arabic}</p>
+                    <p class="text-xs text-emerald-300 italic bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-900/30">${d.trans_bn}</p>
+                    <p class="text-xs text-slate-300 border-t border-slate-800 pt-2">${d.meaning_bn}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterDuas() {
+            const q = document.getElementById('duaSearchInput').value.toLowerCase();
+            const filtered = duaData.filter(d => d.title_bn.toLowerCase().includes(q) || d.meaning_bn.toLowerCase().includes(q));
+            const container = document.getElementById('duaContainer');
+            container.innerHTML = '';
+            filtered.forEach(d => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-3';
+                card.innerHTML = `
+                    <h3 class="font-bold text-emerald-400 text-base">${d.title_bn}</h3>
+                    <p class="font-arabic text-xl text-right text-slate-100 leading-relaxed" dir="rtl">${d.arabic}</p>
+                    <p class="text-xs text-emerald-300 italic bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-900/30">${d.trans_bn}</p>
+                    <p class="text-xs text-slate-300 border-t border-slate-800 pt-2">${d.meaning_bn}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderNames() {
+            const container = document.getElementById('namesContainer');
+            container.innerHTML = '';
+
+            namesData.forEach(n => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-4 rounded-2xl border border-slate-800 text-center space-y-2 hover:border-emerald-600/50 transition-all';
+                card.innerHTML = `
+                    <span class="w-7 h-7 inline-flex items-center justify-center rounded-full bg-emerald-950 border border-emerald-800 text-[11px] font-mono font-bold text-emerald-400">${n.num}</span>
+                    <h3 class="font-arabic text-3xl text-emerald-300">${n.ar}</h3>
+                    <h4 class="font-bold text-sm text-slate-100">${n.bn}</h4>
+                    <p class="text-xs text-slate-400">${n.mean_bn}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterNames() {
+            const q = document.getElementById('nameSearchInput').value.toLowerCase();
+            const filtered = namesData.filter(n => n.bn.toLowerCase().includes(q) || n.mean_bn.toLowerCase().includes(q) || n.ar.includes(q));
+            const container = document.getElementById('namesContainer');
+            container.innerHTML = '';
+            filtered.forEach(n => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-4 rounded-2xl border border-slate-800 text-center space-y-2 hover:border-emerald-600/50 transition-all';
+                card.innerHTML = `
+                    <span class="w-7 h-7 inline-flex items-center justify-center rounded-full bg-emerald-950 border border-emerald-800 text-[11px] font-mono font-bold text-emerald-400">${n.num}</span>
+                    <h3 class="font-arabic text-3xl text-emerald-300">${n.ar}</h3>
+                    <h4 class="font-bold text-sm text-slate-100">${n.bn}</h4>
+                    <p class="text-xs text-slate-400">${n.mean_bn}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleTasbihModal() {
+            const modal = document.getElementById('tasbihModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function setTasbihZikr(bn, en) {
+            document.getElementById('tasbihZikrName').innerText = `${bn} (${en})`;
+        }
+
+        function incrementTasbih() {
+            state.tasbihCount++;
+            document.getElementById('tasbihCountDisplay').innerText = state.tasbihCount.toLocaleString('bn-BD');
+        }
+
+        function resetTasbih() {
+            state.tasbihCount = 0;
+            document.getElementById('tasbihCountDisplay').innerText = '০';
+        }
+    </script>
+</body>
+</html>
