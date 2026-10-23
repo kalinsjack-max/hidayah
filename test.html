@@ -418,12 +418,51 @@
 
     </main>
 
-    <footer class="mt-auto border-t border-emerald-900/50 bg-slate-950/95">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center sm:text-left">
-        <div><div class="flex items-center justify-center sm:justify-start gap-3 mb-2"><span class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white text-xl">☪</span><span class="text-xl font-bold text-emerald-300">Hidayah</span></div><p class="text-sm text-slate-400">কুরআন, হাদিস, দোয়া ও ইবাদতের সময়—এক জায়গায়।</p></div>
-        <div><h3 class="font-semibold text-slate-200 mb-2">দ্রুত লিংক</h3><div class="flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-2 text-sm text-slate-400"><button onclick="switchTab('quran')" class="hover:text-emerald-300">আল-কুরআন</button><button onclick="switchTab('hadith')" class="hover:text-emerald-300">হাদিস</button><button onclick="switchTab('dua')" class="hover:text-emerald-300">দোয়া ও জিকির</button><button onclick="switchTab('prayer')" class="hover:text-emerald-300">নামাজের সময়</button></div></div>
-        <div class="text-sm text-slate-400"><p class="font-semibold text-slate-200 mb-2">একটি গুরুত্বপূর্ণ কথা</p><p>নামাজের সময় স্থানীয় অবস্থান ও গণনা-পদ্ধতির ওপর নির্ভর করে। আপনার এলাকার মসজিদের সময়ের সঙ্গে মিলিয়ে নিন।</p></div>
-      </div><div class="border-t border-slate-800 py-3 text-center text-xs text-slate-500">© <span id="footerYear"></span> Hidayah · আল্লাহ আমাদের সঠিক জ্ঞান ও আমল দান করুন।</div>
+    <footer class="relative mt-16 overflow-hidden border-t border-emerald-400/20 bg-gradient-to-b from-slate-900 via-slate-950 to-[#020b09] text-slate-300">
+      <div class="pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl"></div>
+      <div class="relative mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+        <div class="mb-10 flex flex-col items-center text-center">
+          <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-emerald-300/30 bg-gradient-to-br from-emerald-400/20 to-teal-700/20 shadow-lg shadow-emerald-950/40">
+            <span class="text-3xl text-emerald-300">☪</span>
+          </div>
+          <div class="text-2xl font-extrabold tracking-wide text-white">Hidayah <span class="text-emerald-300">هداية</span></div>
+          <p class="mt-2 max-w-xl text-sm leading-6 text-slate-400">কুরআন, হাদিস, দোয়া ও ইবাদতের জন্য একটি সুন্দর, সহজ ও নির্ভরযোগ্য সহায়ক জায়গা।</p>
+          <div class="mt-5 h-px w-24 bg-gradient-to-r from-transparent via-emerald-400/80 to-transparent"></div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 border-y border-white/10 py-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+          <div>
+            <h3 class="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-emerald-300">অন্বেষণ করুন</h3>
+            <div class="flex flex-col items-center gap-3 text-sm sm:items-start">
+              <button onclick="switchTab('quran')" class="transition hover:text-emerald-300">আল-কুরআন</button>
+              <button onclick="switchTab('hadith')" class="transition hover:text-emerald-300">হাদিস গ্রন্থ</button>
+              <button onclick="switchTab('dua')" class="transition hover:text-emerald-300">দোয়া ও জিকির</button>
+              <button onclick="switchTab('names')" class="transition hover:text-emerald-300">আল্লাহর ৯৯টি নাম</button>
+            </div>
+          </div>
+          <div>
+            <h3 class="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-emerald-300">ইবাদত</h3>
+            <div class="flex flex-col items-center gap-3 text-sm sm:items-start">
+              <button onclick="switchTab('prayer')" class="transition hover:text-emerald-300">নামাজের সময়</button>
+              <button onclick="toggleTasbihModal()" class="transition hover:text-emerald-300">ডিজিটাল তসবীহ</button>
+              <a href="https://www.hadithbd.com/hadith/" target="_blank" rel="noopener noreferrer" class="transition hover:text-emerald-300">হাদিসবিডি ↗</a>
+            </div>
+          </div>
+          <div class="text-center sm:text-left">
+            <h3 class="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-emerald-300">একটি স্মরণ</h3>
+            <p class="text-sm leading-6 text-slate-400">জ্ঞান অর্জন করুন, যাচাই করে শিখুন এবং শেখা অনুযায়ী আমল করার চেষ্টা করুন।</p>
+          </div>
+          <div class="text-center sm:text-left">
+            <h3 class="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-emerald-300">নামাজের সময়</h3>
+            <p class="text-sm leading-6 text-slate-400">সময় স্থানীয় অবস্থান ও গণনা-পদ্ধতি অনুযায়ী ভিন্ন হতে পারে। আপনার এলাকার মসজিদের সময়ের সঙ্গে মিলিয়ে নিন।</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center justify-between gap-3 pt-6 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
+          <p>© <span id="footerYear"></span> <span class="font-semibold text-slate-300">Hidayah</span>. সর্বস্বত্ব সংরক্ষিত।</p>
+          <p class="text-slate-500">আল্লাহ আমাদের সঠিক জ্ঞান ও আমল দান করুন। <span class="text-emerald-400">آمين</span></p>
+        </div>
+      </div>
     </footer>
     <!-- Hidden Audio Element -->
     <audio id="quranAudioPlayer" preload="auto"></audio>
