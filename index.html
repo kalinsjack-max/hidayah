@@ -80,6 +80,67 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 0, 0, 0.08);
         }
+
+
+        /* Hidayah visual polish: calm, readable, responsive */
+        :root { color-scheme: dark; --hid-green: #34d399; --hid-gold: #f5d58a; }
+        html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+        body {
+            background:
+              radial-gradient(ellipse at 8% 0%, rgba(16,185,129,.13), transparent 34rem),
+              radial-gradient(ellipse at 92% 18%, rgba(20,184,166,.08), transparent 32rem),
+              #020817;
+            line-height: 1.55;
+        }
+        body::before {
+            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+            opacity: .16;
+            background-image: radial-gradient(rgba(110,231,183,.22) .7px, transparent .7px);
+            background-size: 24px 24px;
+            mask-image: linear-gradient(to bottom, black, transparent 72%);
+        }
+        ::selection { background: rgba(16,185,129,.35); color: #fff; }
+        :focus-visible { outline: 2px solid #6ee7b7; outline-offset: 3px; }
+        button, a, select, input { -webkit-tap-highlight-color: transparent; }
+        button { touch-action: manipulation; }
+        button:not(:disabled) { transition: color .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+        button:active:not(:disabled) { transform: translateY(1px) scale(.99); }
+        input, select { max-width: 100%; }
+        header.glass-panel { background: rgba(2, 8, 23, .82); border-color: rgba(52,211,153,.14); box-shadow: 0 12px 36px rgba(0,0,0,.18); }
+        main { animation: hidFadeIn .45s ease both; }
+        .glass-panel { border-color: rgba(148,163,184,.14); box-shadow: 0 12px 32px rgba(0,0,0,.10); }
+        .tab-content > div, .tab-content .glass-panel { transition: border-color .2s ease, box-shadow .2s ease; }
+        .tab-content h2 { letter-spacing: -.025em; }
+        #tab-quran .glass-panel, #tab-hadith .glass-panel, #tab-prayer .glass-panel,
+        #tab-fatwa .glass-panel, #tab-dua .glass-panel, #tab-names .glass-panel { border-color: rgba(52,211,153,.13); }
+        #surahListContainer > div:hover, #hadithBooksContainer button:hover { transform: translateY(-1px); }
+        #versesContainer { scroll-behavior: smooth; }
+        #versesContainer > div { border-radius: 1rem; }
+        #prayerCardsGrid > div { min-width: 0; }
+        #prayerCardsGrid > div:hover { box-shadow: 0 14px 34px rgba(16,185,129,.09); }
+        #tasbihModal > div { border-color: rgba(110,231,183,.24); box-shadow: 0 30px 100px rgba(0,0,0,.55); }
+        footer { isolation: isolate; }
+        footer button:hover { transform: translateX(2px); }
+        footer a:hover { color: #6ee7b7; }
+        #ramadanTableWrap table tbody tr:nth-child(even) { background: rgba(255,255,255,.018); }
+        #ramadanTableWrap table th { white-space: nowrap; }
+        #ramadanTableWrap table td { white-space: nowrap; }
+        .hid-section-kicker { color: var(--hid-gold); letter-spacing: .18em; text-transform: uppercase; font-size: .65rem; font-weight: 800; }
+        @keyframes hidFadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+        }
+        @media (max-width: 640px) {
+            html { scroll-padding-top: 4.75rem; }
+            main { padding-top: 1rem; }
+            header .h-16 { height: 4.25rem; }
+            header .flex.items-center.space-x-3 { gap: .4rem; }
+            #langSelect { max-width: 112px; padding-left: .35rem; padding-right: .35rem; font-size: .68rem; }
+            #quickPrayerTicker { flex-wrap: wrap; justify-content: center; padding: .55rem .65rem; }
+            #tab-prayer .glass-panel { padding: 1rem; }
+            footer { margin-top: 3rem; }
+        }
+
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
@@ -128,8 +189,6 @@
                             <option value="bn" selected>বাংলা (Bangla)</option>
                             <option value="en">English</option>
                             <option value="ar">العربية (Arabic)</option>
-                            <option value="ur">اردو (Urdu)</option>
-                            <option value="hi">हिन्दी (Hindi)</option>
                         </select>
                     </div>
 
@@ -518,7 +577,7 @@
     <audio id="quranAudioPlayer" preload="auto"></audio>
 
     <!-- Digital Tasbih Modal -->
-    <div id="tasbihModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div id="tasbihModal" onclick="if(event.target === this) toggleTasbihModal()" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-emerald-400/25 bg-gradient-to-br from-[#0b241c] via-slate-950 to-[#06100d] p-6 text-center shadow-2xl shadow-emerald-950/40 sm:p-8">
             <div class="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-emerald-400/10 blur-2xl"></div>
             <div class="pointer-events-none absolute -bottom-16 -left-12 h-40 w-40 rounded-full bg-teal-400/10 blur-2xl"></div>
@@ -989,7 +1048,10 @@
             renderNames();
             setupAudioEvents();
             
-            getUserLocation();
+            // Start with Dhaka timings without prompting for GPS on page load.
+            fetchPrayerTimes();
+            restoreTasbih();
+            updateTasbihDisplay();
             setInterval(updateCountdown, 1000);
         };
 
@@ -998,8 +1060,20 @@
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('gregorianDateDisplay').innerText = today.toLocaleDateString('bn-BD', options);
             
-            // Approximate Hijri Calculation for display
-            document.getElementById('hijriDateDisplay').innerText = "১৪৪৭ হিজরী • পবিত্র রমজান / শাওয়াল";
+            // Use the browser's Islamic calendar support instead of a hard-coded Hijri date.
+            const hijriEl = document.getElementById('hijriDateDisplay');
+            try {
+                const hijriText = new Intl.DateTimeFormat('bn-BD-u-ca-islamic-umalqura', {
+                    day: 'numeric', month: 'long', year: 'numeric'
+                }).format(today);
+                hijriEl.innerText = `${hijriText} হিজরি`;
+            } catch (err) {
+                try {
+                    hijriEl.innerText = `${new Intl.DateTimeFormat('en-u-ca-islamic', {day:'numeric', month:'long', year:'numeric'}).format(today)} (হিজরি)`;
+                } catch (_) {
+                    hijriEl.innerText = 'হিজরি তারিখ নির্ধারণ করা যায়নি';
+                }
+            }
         }
 
         function switchTab(tabId) {
@@ -1367,7 +1441,7 @@
                 if(!res.ok) throw new Error('API unavailable');
                 const json=await res.json(), rows=json.data?.hadiths || json.data || [];
                 if(!Array.isArray(rows)||!rows.length) throw new Error('No results');
-                const mapped=rows.map((h,i)=>({id:h.number||first+i,number:h.number||first+i,chapter:h.name||'হাদিস',arabic:h.arab||h.arabic||'',text_bn:h.id||h.translation||h.translation_id||'এই API-তে অনুবাদ পাওয়া যায়নি।',grade:`${hadithBooks.find(b=>b.id===bookId)?.title||bookId} • হাদিস ${h.number||first+i}`,translationLabel:'ইন্দোনেশীয় অনুবাদ (API-তে বাংলা নেই)'}));
+                const mapped=rows.map((h,i)=>({id:h.number||first+i,number:h.number||first+i,chapter:h.name||'হাদিস',arabic:h.arab||h.arabic||'',text_bn:h.id||h.translation||h.translation_id||'এই API-তে অনুবাদ পাওয়া যায়নি।',grade:`${hadithBooks.find(b=>b.id===bookId)?.title||bookId} • হাদিস ${h.number||first+i}`,translationLabel:'ইন্দোনেশীয় অনুবাদ · বাংলা অনুবাদ এই API-তে নেই'}));
                 state.hadithsList=append?state.hadithsList.concat(mapped):mapped; renderHadithList(state.hadithsList);
                 const more=document.createElement('button'); more.id='loadMoreHadiths'; more.className='w-full p-3 rounded-xl border border-emerald-700/60 bg-emerald-950/50 text-emerald-300'; more.textContent='আরও ৫০টি হাদিস লোড করুন'; more.onclick=()=>{state.hadithPage++;loadHadiths(bookId,true)}; container.appendChild(more);
             } catch(e) {
@@ -1395,6 +1469,7 @@
                     <div class="text-right my-3">
                         <p class="font-arabic text-xl sm:text-2xl text-slate-100 leading-relaxed" dir="rtl">${h.arabic}</p>
                     </div>
+                    ${h.translationLabel ? `<p class="inline-flex rounded-full border border-amber-300/20 bg-amber-300/5 px-2.5 py-1 text-[10px] text-amber-200/90">${h.translationLabel}</p>` : ''}
                     <p class="text-sm text-slate-300 font-bengali leading-relaxed border-t border-slate-800/50 pt-3">${h.text_bn}</p>
                 `;
                 container.appendChild(card);
@@ -1403,29 +1478,32 @@
 
         function filterHadiths() {
             const q = document.getElementById('hadithSearchInput').value.toLowerCase();
-            const filtered = state.hadithsList.filter(h => h.text_bn.toLowerCase().includes(q) || h.chapter.toLowerCase().includes(q));
+            const filtered = state.hadithsList.filter(h => String(h.text_bn || '').toLowerCase().includes(q) || String(h.chapter || '').toLowerCase().includes(q) || String(h.number || '').includes(q));
             renderHadithList(filtered);
         }
 
         function getUserLocation() {
             if (navigator.geolocation) {
-                document.getElementById('locationNameLabel').innerText = 'লোকেশন খোঁজা হচ্ছে...';
+                document.getElementById('locationNameLabel').innerText = 'লোকেশন খোঁজা হচ্ছে…';
                 navigator.geolocation.getCurrentPosition(
                     position => {
                         state.location.lat = position.coords.latitude;
                         state.location.lng = position.coords.longitude;
                         document.getElementById('locationNameLabel').innerText = 'জিপিএস লোকেশন সক্রিয়';
-                        document.getElementById('currentLocationDesc').innerText = `অক্ষাংশ: ${state.location.lat.toFixed(2)}, দ্রাঘিমাংশ: ${state.location.lng.toFixed(2)}`;
+                        document.getElementById('currentLocationDesc').innerText = `GPS লোকেশন · ${state.location.lat.toFixed(3)}, ${state.location.lng.toFixed(3)}`;
                         fetchPrayerTimes();
                     },
                     error => {
                         console.warn("Geolocation denied or error:", error);
                         document.getElementById('locationNameLabel').innerText = 'ডিফল্ট লোকেশন (ঢাকা)';
+                        document.getElementById('currentLocationDesc').innerText = 'লোকেশন: ঢাকা, বাংলাদেশ (ডিফল্ট)';
                         fetchPrayerTimes();
                     },
                     { timeout: 10000 }
                 );
             } else {
+                document.getElementById('locationNameLabel').innerText = 'ডিফল্ট লোকেশন (ঢাকা)';
+                document.getElementById('currentLocationDesc').innerText = 'লোকেশন: ঢাকা, বাংলাদেশ (ডিফল্ট)';
                 fetchPrayerTimes();
             }
         }
@@ -1439,7 +1517,7 @@
                 if(data.code === 200) {
                     state.prayerTimes = data.data.timings;
                     renderPrayerTimesUI(state.prayerTimes);
-                }
+                } else { throw new Error('Prayer-time API returned an unsuccessful response'); }
             } catch(e) {
                 console.error("Error fetching prayer times:", e);
                 // Fallback static times
@@ -1447,12 +1525,14 @@
                     Fajr: "04:50",
                     Sunrise: "06:05",
                     Dhuhr: "12:15",
-                    Asr: "04:30",
-                    Sunset: "06:20",
-                    Maghrib: "06:25",
-                    Isha: "07:45"
+                    Asr: "16:30",
+                    Sunset: "18:20",
+                    Maghrib: "18:25",
+                    Isha: "19:45"
                 };
                 renderPrayerTimesUI(state.prayerTimes);
+                const desc = document.getElementById('currentLocationDesc');
+                if (desc) desc.innerText = 'নমুনা সময় দেখানো হচ্ছে · নির্ভুল সময়ের জন্য সংযোগ ও স্থানীয় সময়সূচি যাচাই করুন';
             }
         }
 
@@ -1742,6 +1822,13 @@
             const progress = document.getElementById('tasbihProgress');
             if (count) count.innerText = state.tasbihCount.toLocaleString('bn-BD');
             if (progress) progress.innerText = `${state.tasbihCount.toLocaleString('bn-BD')} / ${state.tasbihTarget.toLocaleString('bn-BD')}`;
+            const ring = count?.closest('.relative.mb-6.flex.h-44');
+            if (ring) {
+                const percent = Math.min(100, (state.tasbihCount % state.tasbihTarget) / state.tasbihTarget * 100);
+                ring.style.borderColor = percent >= 99.9 ? 'rgba(245,213,138,.85)' : `rgba(110,231,183,${0.25 + percent / 180})`;
+                ring.style.boxShadow = `0 0 ${8 + percent * .22}px rgba(16,185,129,${0.04 + percent / 1800})`;
+            }
+            try { localStorage.setItem('hidayah-tasbih', JSON.stringify({count: state.tasbihCount, target: state.tasbihTarget})); } catch (_) { /* storage may be disabled */ }
         }
 
         function incrementTasbih() {
@@ -1753,6 +1840,23 @@
             state.tasbihCount = 0;
             updateTasbihDisplay();
         }
+
+        function restoreTasbih() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('hidayah-tasbih') || 'null');
+                if (saved && Number.isFinite(saved.count) && saved.count >= 0) state.tasbihCount = Math.floor(saved.count);
+                if (saved && [33, 99].includes(Number(saved.target))) state.tasbihTarget = Number(saved.target);
+            } catch (_) { /* start fresh if saved data is unavailable */ }
+        }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('tasbihModal');
+                if (modal && !modal.classList.contains('hidden')) modal.classList.add('hidden');
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
+            }
+        });
     </script>
 </body>
 </html>
