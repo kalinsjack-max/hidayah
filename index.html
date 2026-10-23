@@ -73,6 +73,8 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        #quranReaderPanel { scroll-margin-top: 5.5rem; }
+        @media (max-width: 1023px) { #versesContainer { min-height: 0; } #quranReaderPanel { scroll-margin-top: 5rem; } #surahHeader select { max-width: 48vw; } }
         .light .glass-panel {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -197,7 +199,7 @@
         <section id="tab-quran" class="tab-content">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 <!-- Sidebar: Surah Search & List -->
-                <div class="lg:col-span-1 glass-panel p-4 rounded-2xl h-[700px] flex flex-col border border-slate-800">
+                <div class="lg:col-span-1 glass-panel p-4 rounded-2xl h-[320px] sm:h-[420px] lg:h-[700px] flex flex-col border border-slate-800">
                     <div class="mb-4 space-y-3">
                         <div class="relative">
                             <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-sm"></i>
@@ -219,7 +221,7 @@
                 </div>
 
                 <!-- Main Quran Reader View -->
-                <div class="lg:col-span-3 glass-panel rounded-2xl flex flex-col h-[700px] border border-slate-800 overflow-hidden relative">
+                <div id="quranReaderPanel" class="lg:col-span-3 glass-panel rounded-2xl flex flex-col h-[72vh] min-h-[520px] lg:h-[700px] border border-slate-800 overflow-hidden relative">
                     <!-- Surah Header Banner -->
                     <div id="surahHeader" class="p-4 bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 border-b border-slate-800 flex items-center justify-between flex-wrap gap-2">
                         <div>
@@ -302,6 +304,10 @@
                         </div>
                     </div>
 
+                    <div class="mb-4 flex flex-col gap-3 rounded-2xl border border-emerald-800/50 bg-gradient-to-r from-emerald-950/60 to-slate-900/70 p-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex items-start gap-3"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300"><i class="fa-solid fa-book-open-reader"></i></span><div><h3 class="font-bold text-slate-100">হাদিসবিডির পূর্ণ হাদিস সংগ্রহ</h3><p class="mt-1 text-xs leading-5 text-slate-400">৩৩টি গ্রন্থ ও বিস্তৃত বাংলা হাদিস লাইব্রেরি সরাসরি মূল উৎসে পড়ুন। পূর্ণ সংগ্রহ এখানে স্বয়ংক্রিয়ভাবে কপি করা হচ্ছে না।</p></div></div>
+                        <a href="https://www.hadithbd.com/hadith/" target="_blank" rel="noopener noreferrer" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-2.5 text-xs font-bold text-emerald-200 transition hover:bg-emerald-400/20">পূর্ণ সংগ্রহ খুলুন <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
                     <!-- Hadith Book Selection Tabs -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2" id="hadithBooksContainer">
                         <!-- Injected dynamically -->
@@ -332,6 +338,46 @@
                     <div id="prayerCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                         <!-- Dynamic Prayer Cards -->
                     </div>
+                </div>
+
+                <!-- Sehri & Iftar timetable -->
+                <div class="relative overflow-hidden rounded-3xl border border-emerald-800/60 bg-gradient-to-br from-[#061a15] via-slate-900 to-[#102b20] p-5 sm:p-7 shadow-xl shadow-black/20">
+                    <div class="pointer-events-none absolute -right-10 -top-12 h-44 w-44 rounded-full bg-amber-300/5 blur-2xl"></div>
+                    <div class="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div class="flex items-start gap-3">
+                            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-300/10 text-amber-200"><i class="fa-solid fa-moon text-xl"></i></div>
+                            <div>
+                                <p class="text-[10px] font-bold uppercase tracking-[.24em] text-amber-200/70">Ramadan planner</p>
+                                <h3 class="mt-1 text-xl sm:text-2xl font-extrabold text-white">সেহরি ও ইফতারের সময়সূচি</h3>
+                                <p class="mt-1 max-w-xl text-xs leading-5 text-slate-400">শহর ও হিজরি বছর বেছে পুরো রমজানের সময়সূচি দেখুন।</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 sm:flex">
+                            <label class="text-[11px] text-slate-400">জেলা / শহর
+                                <select id="ramadanCitySelect" class="mt-1 block w-full rounded-xl border border-emerald-900 bg-slate-950/80 px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-emerald-400">
+                                    <option value="Dhaka">ঢাকা</option><option value="Manikganj">মানিকগঞ্জ</option><option value="Chittagong">চট্টগ্রাম</option><option value="Sylhet">সিলেট</option><option value="Rajshahi">রাজশাহী</option><option value="Khulna">খুলনা</option><option value="Barisal">বরিশাল</option><option value="Rangpur">রংপুর</option><option value="Mymensingh">ময়মনসিংহ</option>
+                                </select>
+                            </label>
+                            <label class="text-[11px] text-slate-400">হিজরি বছর
+                                <select id="ramadanYearSelect" class="mt-1 block w-full rounded-xl border border-emerald-900 bg-slate-950/80 px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-emerald-400">
+                                    <option value="1448">১৪৪৮ হিজরি</option><option value="1449">১৪৪৯ হিজরি</option>
+                                </select>
+                            </label>
+                            <button onclick="loadSehriIftarTable()" class="col-span-2 self-end rounded-xl bg-gradient-to-r from-emerald-400 to-teal-300 px-4 py-2.5 text-sm font-extrabold text-emerald-950 transition hover:brightness-110 sm:col-span-1"><i class="fa-solid fa-calendar-days mr-2"></i>সময়সূচি দেখুন</button>
+                        </div>
+                    </div>
+                    <div class="relative mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <div class="flex items-center gap-3 rounded-2xl border border-amber-200/15 bg-amber-200/[.06] p-4"><div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-200/10 text-amber-200"><i class="fa-solid fa-mug-hot"></i></div><div><p class="text-xs text-amber-100/70">সেহরির শেষ সময়</p><p class="text-[11px] text-slate-500">ফজরের শুরু অনুযায়ী</p></div></div>
+                        <div class="flex items-center gap-3 rounded-2xl border border-emerald-300/15 bg-emerald-300/[.06] p-4"><div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-300/10 text-emerald-200"><i class="fa-solid fa-utensils"></i></div><div><p class="text-xs text-emerald-100/70">ইফতারের সময়</p><p class="text-[11px] text-slate-500">মাগরিবের সময় অনুযায়ী</p></div></div>
+                    </div>
+                    <p id="ramadanTableStatus" role="status" class="relative mt-4 text-sm text-slate-400">সময়সূচি লোড করতে শহর ও বছর নির্বাচন করুন।</p>
+                    <div id="ramadanTableWrap" class="relative mt-3 hidden overflow-x-auto rounded-2xl border border-white/10">
+                        <table class="w-full min-w-[430px] text-left text-sm">
+                            <thead class="bg-emerald-950/90 text-[11px] uppercase tracking-wide text-emerald-100/80"><tr><th class="px-4 py-3">রমজান</th><th class="px-4 py-3">তারিখ</th><th class="px-4 py-3">সেহরির শেষ</th><th class="px-4 py-3">ইফতার</th></tr></thead>
+                            <tbody id="ramadanTableBody" class="divide-y divide-white/5 bg-slate-950/40 text-slate-200"></tbody>
+                        </table>
+                    </div>
+                    <p class="relative mt-3 text-[10px] leading-5 text-slate-500"><i class="fa-solid fa-circle-info mr-1 text-amber-200/70"></i>সময়গুলো AlAdhan ক্যালকুলেশন API থেকে আসে; চাঁদ দেখা ও স্থানীয় কর্তৃপক্ষের সময়সূচি অনুযায়ী তারিখ/সময়ে পার্থক্য হতে পারে। রোজার আগে স্থানীয় মসজিদ বা ইসলামিক ফাউন্ডেশনের প্রকাশিত সময়সূচির সঙ্গে মিলিয়ে নিন।</p>
                 </div>
             </div>
         </section>
@@ -416,22 +462,82 @@
 
     </main>
 
+    <footer class="relative mt-20 overflow-hidden border-t border-emerald-400/20 bg-[#04130f] text-slate-300">
+      <div class="pointer-events-none absolute -top-24 -left-16 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-teal-500/10 blur-3xl"></div>
+      <div class="relative mx-auto max-w-7xl px-5 pb-7 pt-12 sm:px-8 lg:px-10">
+        <div class="grid gap-10 lg:grid-cols-[1.35fr_2fr] lg:gap-16">
+          <div class="max-w-md">
+            <div class="flex items-center gap-3">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-emerald-300/30 bg-gradient-to-br from-emerald-400/20 to-teal-900/60 text-2xl text-emerald-300 shadow-lg shadow-emerald-950/40">
+                <i class="fa-solid fa-mosque"></i>
+              </div>
+              <div>
+                <div class="text-2xl font-black tracking-wide text-white">Hidayah <span class="text-emerald-300">هداية</span></div>
+                <p class="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-300/80">Your companion in remembrance</p>
+              </div>
+            </div>
+            <p class="mt-5 text-sm leading-7 text-slate-400">কুরআন, হাদিস, দোয়া ও ইবাদতের স্মরণে—জ্ঞান অর্জন, যাচাই এবং আমলের পথে আপনার সহযাত্রী।</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <button onclick="switchTab('quran')" class="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/5 px-3 py-2 text-xs font-semibold text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/10"><i class="fa-solid fa-book-quran text-emerald-300"></i> কুরআন পড়ুন</button>
+              <button onclick="toggleTasbihModal()" class="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/5 px-3 py-2 text-xs font-semibold text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/10"><i class="fa-solid fa-circle-nodes text-emerald-300"></i> তসবীহ</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3">
+            <div>
+              <h3 class="mb-4 flex items-center gap-2 text-sm font-bold text-white"><i class="fa-solid fa-compass text-emerald-300"></i> অন্বেষণ</h3>
+              <div class="flex flex-col gap-3 text-sm text-slate-400">
+                <button onclick="switchTab('quran')" class="flex items-center gap-2 text-left transition hover:text-emerald-300"><i class="fa-solid fa-book-quran w-4 text-center"></i> আল-কুরআন</button>
+                <button onclick="switchTab('hadith')" class="flex items-center gap-2 text-left transition hover:text-emerald-300"><i class="fa-solid fa-book-open w-4 text-center"></i> হাদিস</button>
+                <button onclick="switchTab('dua')" class="flex items-center gap-2 text-left transition hover:text-emerald-300"><i class="fa-solid fa-hands-praying w-4 text-center"></i> দোয়া ও জিকির</button>
+                <button onclick="switchTab('names')" class="flex items-center gap-2 text-left transition hover:text-emerald-300"><i class="fa-solid fa-star-and-crescent w-4 text-center"></i> আল্লাহর ৯৯ নাম</button>
+              </div>
+            </div>
+            <div>
+              <h3 class="mb-4 flex items-center gap-2 text-sm font-bold text-white"><i class="fa-solid fa-heart text-emerald-300"></i> ইবাদত</h3>
+              <div class="flex flex-col gap-3 text-sm text-slate-400">
+                <button onclick="switchTab('prayer')" class="flex items-center gap-2 text-left transition hover:text-emerald-300"><i class="fa-solid fa-clock w-4 text-center"></i> নামাজের সময়</button>
+                <button onclick="toggleTasbihModal()" class="flex items-center gap-2 text-left transition hover:text-emerald-300"><i class="fa-solid fa-circle-nodes w-4 text-center"></i> ডিজিটাল তসবীহ</button>
+                <a href="https://www.hadithbd.com/hadith/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 transition hover:text-emerald-300"><i class="fa-solid fa-arrow-up-right-from-square w-4 text-center"></i> হাদিসবিডি</a>
+              </div>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <h3 class="mb-4 flex items-center gap-2 text-sm font-bold text-white"><i class="fa-solid fa-circle-info text-emerald-300"></i> মনে রাখুন</h3>
+              <p class="text-sm leading-6 text-slate-400">নামাজের সময় স্থান ও গণনা-পদ্ধতি অনুযায়ী ভিন্ন হতে পারে। স্থানীয় মসজিদের সময়ের সঙ্গে মিলিয়ে নিন।</p>
+              <div class="mt-4 flex items-start gap-2 text-xs leading-5 text-slate-500"><i class="fa-solid fa-shield-halved mt-0.5 text-emerald-400"></i><span>ইসলামি তথ্য যাচাই করে শিখুন এবং নির্ভরযোগ্য সূত্র অনুসরণ করুন।</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-center sm:flex-row sm:text-left">
+          <p class="text-xs text-slate-500"><i class="fa-regular fa-copyright mr-1 text-emerald-400"></i><span id="footerYear"></span> <span class="font-semibold text-slate-300">Hidayah</span> · সর্বস্বত্ব সংরক্ষিত।</p>
+          <p class="flex items-center gap-2 text-xs text-slate-500"><i class="fa-solid fa-heart text-emerald-400"></i> আল্লাহ আমাদের সঠিক জ্ঞান ও আমল দান করুন <span class="font-semibold text-emerald-300">آمين</span></p>
+        </div>
+      </div>
+    </footer>
     <!-- Hidden Audio Element -->
     <audio id="quranAudioPlayer" preload="auto"></audio>
 
     <!-- Digital Tasbih Modal -->
     <div id="tasbihModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="glass-panel max-w-md w-full p-6 rounded-3xl border border-emerald-500/30 text-center relative shadow-2xl">
+        <div class="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-emerald-400/25 bg-gradient-to-br from-[#0b241c] via-slate-950 to-[#06100d] p-6 text-center shadow-2xl shadow-emerald-950/40 sm:p-8">
+            <div class="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-emerald-400/10 blur-2xl"></div>
+            <div class="pointer-events-none absolute -bottom-16 -left-12 h-40 w-40 rounded-full bg-teal-400/10 blur-2xl"></div>
             <button onclick="toggleTasbihModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
 
-            <h3 class="text-xl font-bold text-emerald-400 mb-1"><i class="fa-solid fa-beads mr-2"></i>ডিজিটাল তসবীহ</h3>
-            <p id="tasbihZikrName" class="text-xs text-slate-400 mb-6">সুবহানাল্লাহ (SubhanAllah)</p>
-
-            <div class="my-6">
-                <span id="tasbihCountDisplay" class="text-6xl font-black font-mono text-emerald-300 drop-shadow-md">০</span>
+            <div class="relative">
+              <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-300/20 bg-emerald-400/10 text-xl text-emerald-300"><i class="fa-solid fa-circle-nodes"></i></div>
+              <h3 class="text-2xl font-extrabold tracking-tight text-white">ডিজিটাল তসবীহ</h3>
+              <p class="mt-1 text-xs text-slate-400">জিকিরে মনোযোগ দিন, ধীরে ধীরে গণনা করুন</p>
+              <button onclick="toggleTasbihModal()" class="absolute right-0 top-0 rounded-xl p-2 text-slate-500 transition hover:bg-white/5 hover:text-white" aria-label="Close tasbih"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
+            <p id="tasbihZikrName" class="relative mb-5 mt-6 text-sm font-semibold text-emerald-200">সুবহানাল্লাহ (SubhanAllah)</p>
+            <div class="relative mx-auto my-5 flex h-44 w-44 items-center justify-center rounded-full border border-emerald-400/25 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.12),rgba(2,6,23,0.85)_68%)] shadow-[0_0_50px_rgba(16,185,129,0.08)]">
+              <div class="absolute inset-2 rounded-full border border-dashed border-emerald-500/20"></div>
+              <div><span id="tasbihCountDisplay" class="block text-6xl font-black tabular-nums text-white">০</span><span class="mt-1 block text-[10px] uppercase tracking-[0.2em] text-emerald-300/70">Count</span></div>
+            </div>
+            <div class="relative mb-6 flex items-center justify-center gap-2 text-xs text-slate-400"><i class="fa-solid fa-bullseye text-emerald-400"></i><span>লক্ষ্য:</span><button onclick="setTasbihTarget(33)" class="rounded-full border border-emerald-800/70 px-3 py-1 transition hover:border-emerald-400 hover:text-white">৩৩</button><button onclick="setTasbihTarget(99)" class="rounded-full border border-emerald-800/70 px-3 py-1 transition hover:border-emerald-400 hover:text-white">৯৯</button><span id="tasbihProgress" class="text-emerald-300">০ / ৩৩</span></div>
 
             <div class="flex justify-center gap-3 mb-6">
                 <button onclick="setTasbihZikr('সুবহানাল্লাহ', 'SubhanAllah')" class="px-3 py-1.5 bg-slate-900 border border-emerald-800/50 rounded-lg text-xs text-emerald-300 hover:bg-emerald-950">সুবহানাল্লাহ</button>
@@ -439,14 +545,11 @@
                 <button onclick="setTasbihZikr('আল্লাহু আকবার', 'Allahu Akbar')" class="px-3 py-1.5 bg-slate-900 border border-emerald-800/50 rounded-lg text-xs text-emerald-300 hover:bg-emerald-950">আল্লাহু আকবার</button>
             </div>
 
-            <div class="flex space-x-3">
-                <button onclick="incrementTasbih()" class="flex-grow py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 font-bold text-lg shadow-lg active:scale-95 transition-all">
-                    গণনা করুন (Tap)
-                </button>
-                <button onclick="resetTasbih()" class="px-5 py-4 rounded-2xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-all" title="রিসেট">
-                    <i class="fa-solid fa-rotate-right"></i>
-                </button>
+            <div class="relative flex gap-3">
+                <button onclick="incrementTasbih()" class="flex min-h-14 flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-300 px-4 py-4 text-base font-extrabold text-emerald-950 shadow-lg shadow-emerald-950/30 transition active:scale-[0.98] hover:brightness-105"><i class="fa-solid fa-hand-pointer"></i> গণনা করুন</button>
+                <button onclick="resetTasbih()" class="min-h-14 rounded-2xl border border-white/10 bg-white/5 px-5 text-slate-300 transition hover:border-rose-400/40 hover:bg-rose-400/10 hover:text-white" title="রিসেট"><i class="fa-solid fa-rotate-right"></i></button>
             </div>
+            <p class="relative mt-4 text-[10px] leading-5 text-slate-500">এই কাউন্টারটি শুধু গণনার সহায়ক; জিকিরের সংখ্যা ও পদ্ধতি সম্পর্কে নির্ভরযোগ্য আলেমের নির্দেশনা অনুসরণ করুন।</p>
         </div>
     </div>
 
@@ -469,6 +572,7 @@
             },
             prayerTimes: null,
             tasbihCount: 0,
+            tasbihTarget: 33,
             repeatAyah: false,
             currentHadithBook: 'bukhari',
             hadithsList: []
@@ -531,10 +635,10 @@
         const hadithBooks = [
             { id: 'bukhari', title: 'সহীহ বুখারী', count: '৭,৫৬৩ হাদিস', desc: 'ইমাম বুখারী (রঃ) সংকলিত সর্বাধিক বিশুদ্ধ হাদিস গ্রন্থ।' },
             { id: 'muslim', title: 'সহীহ মুসলিম', count: '৭,৫০০ হাদিস', desc: 'ইমাম মুসলিম (রঃ) সংকলিত দ্বিতীয় বিশুদ্ধতম হাদিস গ্রন্থ।' },
-            { id: 'tirmidhi', title: 'জამე আত-তিরমিজী', count: '৩,৯৫৬ হাদিস', desc: 'ইমাম তিরমিজী (রঃ) সংকলিত সুন্নান ও ফিকহ সমৃদ্ধ হাদিস গ্রন্থ।' },
-            { id: 'abudawud', title: 'সুনানে আবু দাউদ', count: '৫,২৭৪ হাদিস', desc: 'আহকামী ও আইনি সমাধান সমৃদ্ধ প্রখ্যাত হাদিস সংকলন।' },
-            { id: 'nasai', title: 'সুনানে আন-নাসায়ী', count: '৫,৭৫৮ হাদিস', desc: 'ইমাম নাসায়ী (রঃ) কর্তৃক সংকলিত অতি বিশুদ্ধ হাদিসগ্রন্থ।' },
-            { id: 'ibnmajah', title: 'সুনানে ইবনে মাজাহ', count: '৪,৩৪১ হাদিস', desc: 'সুনানে আরবাআর অন্যতম বিখ্যাত হাদিস গ্রন্থ।' }
+            { id: 'tirmidhi', title: 'সুনান আত-তিরমিজী', count: '৩,৯৫৬ হাদিস', desc: 'ইমাম তিরমিজী (রঃ) সংকলিত সুন্নান ও ফিকহ সমৃদ্ধ হাদিস গ্রন্থ।' },
+            { id: 'abudawud', title: 'সুনান আবু দাউদ', count: '৫,২৭৪ হাদিস', desc: 'আহকামী ও আইনি সমাধান সমৃদ্ধ প্রখ্যাত হাদিস সংকলন।' },
+            { id: 'nasai', title: 'সুনান আন-নাসায়ী', count: '৫,৭৫৮ হাদিস', desc: 'ইমাম নাসায়ী (রঃ) কর্তৃক সংকলিত অতি বিশুদ্ধ হাদিসগ্রন্থ।' },
+            { id: 'ibnmajah', title: 'সুনান ইবনে মাজাহ', count: '৪,৩৪১ হাদিস', desc: 'সুনানে আরবাআর অন্যতম বিখ্যাত হাদিস গ্রন্থ।' }
         ];
 
         const sampleHadiths = {
@@ -873,7 +977,9 @@
         ];
 
         window.onload = function() {
+            document.getElementById('footerYear').textContent = new Date().getFullYear();
             initHijriDate();
+            loadSehriIftarTable();
             loadSurahsList();
             loadSurahDetails(1);
             renderHadithBooks();
@@ -952,6 +1058,9 @@
                     state.currentAyahIndex = 0;
                     loadSurahDetails(s.number);
                     renderSurahListItems(state.surahsList);
+                    if (window.matchMedia('(max-width: 1023px)').matches) {
+                        setTimeout(() => document.getElementById('quranReaderPanel').scrollIntoView({behavior:'smooth', block:'start'}), 80);
+                    }
                 };
 
                 item.innerHTML = `
@@ -1248,11 +1357,22 @@
             });
         }
 
-        function loadHadiths(bookId) {
-            const container = document.getElementById('hadithListContainer');
-            const list = sampleHadiths[bookId] || sampleHadiths['bukhari'];
-            state.hadithsList = list;
-            renderHadithList(list);
+        const hadithApiSlugs = {bukhari:'bukhari',muslim:'muslim',tirmidhi:'tirmidzi',abudawud:'abu-dawud',nasai:'nasai',ibnmajah:'ibnu-majah'};
+        async function loadHadiths(bookId, append = false) {
+            const container=document.getElementById('hadithListContainer'), slug=hadithApiSlugs[bookId]||'bukhari';
+            if (!append) { state.hadithPage=1; container.innerHTML='<div class="glass-panel p-6 rounded-2xl text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i>হাদিস লোড হচ্ছে…</div>'; }
+            try {
+                const first=(state.hadithPage-1)*50+1, last=first+49;
+                const res=await fetch(`https://api.hadith.gading.dev/books/${slug}?range=${first}-${last}`);
+                if(!res.ok) throw new Error('API unavailable');
+                const json=await res.json(), rows=json.data?.hadiths || json.data || [];
+                if(!Array.isArray(rows)||!rows.length) throw new Error('No results');
+                const mapped=rows.map((h,i)=>({id:h.number||first+i,number:h.number||first+i,chapter:h.name||'হাদিস',arabic:h.arab||h.arabic||'',text_bn:h.id||h.translation||h.translation_id||'এই API-তে অনুবাদ পাওয়া যায়নি।',grade:`${hadithBooks.find(b=>b.id===bookId)?.title||bookId} • হাদিস ${h.number||first+i}`,translationLabel:'ইন্দোনেশীয় অনুবাদ (API-তে বাংলা নেই)'}));
+                state.hadithsList=append?state.hadithsList.concat(mapped):mapped; renderHadithList(state.hadithsList);
+                const more=document.createElement('button'); more.id='loadMoreHadiths'; more.className='w-full p-3 rounded-xl border border-emerald-700/60 bg-emerald-950/50 text-emerald-300'; more.textContent='আরও ৫০টি হাদিস লোড করুন'; more.onclick=()=>{state.hadithPage++;loadHadiths(bookId,true)}; container.appendChild(more);
+            } catch(e) {
+                if(!append){state.hadithsList=sampleHadiths[bookId]||sampleHadiths.bukhari;renderHadithList(state.hadithsList);const note=document.createElement('p');note.className='text-xs text-amber-300 text-center p-3';note.textContent='অনলাইন API পাওয়া যায়নি; আপাতত সীমিত নমুনা দেখানো হচ্ছে।';container.prepend(note);}
+            }
         }
 
         function renderHadithList(hadiths) {
@@ -1311,7 +1431,8 @@
         }
 
         async function fetchPrayerTimes() {
-            const dateStr = new Date().toISOString().split('T')[0];
+            const localNow = new Date();
+            const dateStr = `${localNow.getFullYear()}-${String(localNow.getMonth()+1).padStart(2,'0')}-${String(localNow.getDate()).padStart(2,'0')}`;
             try {
                 const res = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${state.location.lat}&longitude=${state.location.lng}&method=1`);
                 const data = await res.json();
@@ -1335,6 +1456,61 @@
             }
         }
 
+        function formatPrayerTime12(value) {
+            if (!value || value === '--:--') return '--:--';
+            const match = String(value).match(/(\d{1,2}):(\d{2})/);
+            if (!match) return value;
+            let hours = Number(match[1]);
+            const minutes = match[2];
+            const suffix = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            return `${hours}:${minutes} ${suffix}`;
+        }
+
+        function toBengaliDigits(value) {
+            return String(value).replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[Number(d)]);
+        }
+
+        async function loadSehriIftarTable() {
+            const city = document.getElementById('ramadanCitySelect')?.value || 'Dhaka';
+            const hijriYear = document.getElementById('ramadanYearSelect')?.value || '1448';
+            const status = document.getElementById('ramadanTableStatus');
+            const wrap = document.getElementById('ramadanTableWrap');
+            const body = document.getElementById('ramadanTableBody');
+            if (!status || !wrap || !body) return;
+            status.textContent = 'সময়সূচি লোড হচ্ছে…';
+            status.className = 'relative mt-4 text-sm text-emerald-200';
+            wrap.classList.add('hidden');
+            body.innerHTML = '';
+            try {
+                const url = `https://api.aladhan.com/v1/hijriCalendarByCity/${encodeURIComponent(hijriYear)}/9?city=${encodeURIComponent(city)}&country=Bangladesh&method=1`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('API response error');
+                const result = await response.json();
+                if (result.code !== 200 || !Array.isArray(result.data) || !result.data.length) throw new Error('No timetable data');
+                result.data.forEach((day, index) => {
+                    const timings = day.timings || {};
+                    const hijri = day.date?.hijri || {};
+                    const gregorian = day.date?.gregorian || {};
+                    const fajr = timings.Fajr || timings.Imsak || '--:--';
+                    const maghrib = timings.Maghrib || '--:--';
+                    const dateLabel = gregorian.date || day.date?.readable || '—';
+                    const row = document.createElement('tr');
+                    row.className = 'transition hover:bg-emerald-400/[.05]';
+                    row.innerHTML = `<td class="px-4 py-3 font-semibold text-emerald-200">${toBengaliDigits(hijri.day || index + 1)}</td><td class="px-4 py-3 text-slate-400">${dateLabel}</td><td class="px-4 py-3 font-bold text-amber-200">${formatPrayerTime12(fajr)}</td><td class="px-4 py-3 font-bold text-emerald-200">${formatPrayerTime12(maghrib)}</td>`;
+                    body.appendChild(row);
+                });
+                const cityLabel = document.getElementById('ramadanCitySelect')?.selectedOptions?.[0]?.textContent || city;
+                status.textContent = `${cityLabel} · ${toBengaliDigits(hijriYear)} হিজরি · ${toBengaliDigits(result.data.length)} দিনের সময়সূচি`;
+                status.className = 'relative mt-4 text-sm font-semibold text-emerald-200';
+                wrap.classList.remove('hidden');
+            } catch (error) {
+                console.error('Could not load Ramadan timetable:', error);
+                status.textContent = 'সময়সূচি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন, অথবা স্থানীয় নির্ভরযোগ্য রমজান ক্যালেন্ডার দেখুন।';
+                status.className = 'relative mt-4 text-sm text-rose-300';
+            }
+        }
+
         function renderPrayerTimesUI(timings) {
             const grid = document.getElementById('prayerCardsGrid');
             if(!grid) return;
@@ -1351,27 +1527,36 @@
             ];
 
             prayers.forEach(p => {
-                const time = timings[p.key] || '--:--';
+                const rawTime = timings[p.key] || '--:--';
+                const time = formatPrayerTime12(rawTime);
                 const card = document.createElement('div');
-                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 text-center space-y-2';
+                card.className = 'glass-panel group relative overflow-hidden rounded-2xl border border-emerald-900/60 bg-gradient-to-br from-slate-900/95 to-emerald-950/35 p-5 text-center shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-emerald-950/30';
                 card.innerHTML = `
-                    <div class="w-10 h-10 mx-auto rounded-full bg-emerald-950 border border-emerald-800 flex items-center justify-center text-emerald-400 text-base">
-                        <i class="fa-solid ${p.icon}"></i>
+                    <div class="pointer-events-none absolute -right-5 -top-5 h-20 w-20 rounded-full bg-emerald-400/5 transition group-hover:bg-emerald-400/10"></div>
+                    <div class="relative mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-700/60 bg-emerald-950/80 text-lg text-emerald-300 shadow-inner">
+                        <i class="fa-solid ${p.icon.replace('fa-solid ', '')}"></i>
                     </div>
-                    <h4 class="font-bold text-slate-200 text-base">${p.name}</h4>
-                    <p class="text-xl font-mono font-bold text-emerald-300">${time}</p>
+                    <h4 class="relative mt-3 font-semibold text-slate-200 text-sm">${p.name}</h4>
+                    <p class="relative text-2xl font-bold tracking-tight text-emerald-200">${time}</p>
+                    <p class="relative text-[10px] uppercase tracking-[0.18em] text-slate-500">Local time</p>
                 `;
                 grid.appendChild(card);
             });
         }
 
         function updateCountdown() {
-            if(!state.prayerTimes) return;
-            const now = new Date();
-            const currentTimeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-            
-            document.getElementById('nextPrayerName').innerText = 'যোহর';
-            document.getElementById('nextPrayerCountdown').innerText = '02:15:40';
+            if (!state.prayerTimes) return;
+            const prayers = [{key:'Fajr',name:'ফজর'},{key:'Dhuhr',name:'যোহর'},{key:'Asr',name:'আসর'},{key:'Maghrib',name:'মাগরিব'},{key:'Isha',name:'এশা'}];
+            const now = new Date(), nowMins = now.getHours()*60 + now.getMinutes();
+            const parse = v => { const m = String(v||'').match(/(\d{1,2}):(\d{2})/); return m ? +m[1]*60 + +m[2] : null; };
+            let next = null;
+            for (const p of prayers) { const mins = parse(state.prayerTimes[p.key]); if (mins !== null && mins > nowMins) { next={...p,mins}; break; } }
+            if (!next) next={...prayers[0],mins:parse(state.prayerTimes.Fajr) ?? 0,tomorrow:true};
+            const target = new Date(now); target.setHours(Math.floor(next.mins/60),next.mins%60,0,0);
+            if (next.tomorrow || target <= now) target.setDate(target.getDate()+1);
+            const left=Math.max(0,Math.floor((target-now)/1000));
+            document.getElementById('nextPrayerName').innerText=next.name;
+            document.getElementById('nextPrayerCountdown').innerText=`${String(Math.floor(left/3600)).padStart(2,'0')}:${String(Math.floor(left%3600/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}`;
         }
 
         function renderFatwas() {
@@ -1547,14 +1732,26 @@
             document.getElementById('tasbihZikrName').innerText = `${bn} (${en})`;
         }
 
+        function setTasbihTarget(target) {
+            state.tasbihTarget = target;
+            updateTasbihDisplay();
+        }
+
+        function updateTasbihDisplay() {
+            const count = document.getElementById('tasbihCountDisplay');
+            const progress = document.getElementById('tasbihProgress');
+            if (count) count.innerText = state.tasbihCount.toLocaleString('bn-BD');
+            if (progress) progress.innerText = `${state.tasbihCount.toLocaleString('bn-BD')} / ${state.tasbihTarget.toLocaleString('bn-BD')}`;
+        }
+
         function incrementTasbih() {
             state.tasbihCount++;
-            document.getElementById('tasbihCountDisplay').innerText = state.tasbihCount.toLocaleString('bn-BD');
+            updateTasbihDisplay();
         }
 
         function resetTasbih() {
             state.tasbihCount = 0;
-            document.getElementById('tasbihCountDisplay').innerText = '০';
+            updateTasbihDisplay();
         }
     </script>
 </body>
