@@ -305,7 +305,7 @@
                     </div>
 
                     <div class="mb-4 flex flex-col gap-3 rounded-2xl border border-emerald-800/50 bg-gradient-to-r from-emerald-950/60 to-slate-900/70 p-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div class="flex items-start gap-3"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300"><i class="fa-solid fa-book-open-reader"></i></span><div><h3 class="font-bold text-slate-100">হাদিসবিডির পূর্ণ হাদিস সংগ্রহ</h3><p class="mt-1 text-xs leading-5 text-slate-400">৩৩টি গ্রন্থ ও বিস্তৃত বাংলা হাদিস লাইব্রেরি সরাসরি মূল উৎসে পড়ুন। পূর্ণ সংগ্রহ এখানে স্বয়ংক্রিয়ভাবে কপি করা হচ্ছে না।</p></div></div>
+                        <div class="flex items-start gap-3"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300"><i class="fa-solid fa-book-open-reader"></i></span><div><h3 class="font-bold text-slate-100">হাদিসবিডির পূর্ণ হাদিস সংগ্রহ</h3><p class="mt-1 text-xs leading-5 text-slate-400">৩৩টি গ্রন্থ ও বিস্তৃত বাংলা হাদিস লাইব্রেরি সরাসরি মূল উৎসে পড়ুন।</p></div></div>
                         <a href="https://www.hadithbd.com/hadith/" target="_blank" rel="noopener noreferrer" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-2.5 text-xs font-bold text-emerald-200 transition hover:bg-emerald-400/20">পূর্ণ সংগ্রহ খুলুন <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                     </div>
                     <!-- Hadith Book Selection Tabs -->
@@ -635,10 +635,10 @@
         const hadithBooks = [
             { id: 'bukhari', title: 'সহীহ বুখারী', count: '৭,৫৬৩ হাদিস', desc: 'ইমাম বুখারী (রঃ) সংকলিত সর্বাধিক বিশুদ্ধ হাদিস গ্রন্থ।' },
             { id: 'muslim', title: 'সহীহ মুসলিম', count: '৭,৫০০ হাদিস', desc: 'ইমাম মুসলিম (রঃ) সংকলিত দ্বিতীয় বিশুদ্ধতম হাদিস গ্রন্থ।' },
-            { id: 'tirmidhi', title: 'সুনান আত-তিরমিজী', count: '৩,৯৫৬ হাদিস', desc: 'ইমাম তিরমিজী (রঃ) সংকলিত সুন্নান ও ফিকহ সমৃদ্ধ হাদিস গ্রন্থ।' },
-            { id: 'abudawud', title: 'সুনান আবু দাউদ', count: '৫,২৭৪ হাদিস', desc: 'আহকামী ও আইনি সমাধান সমৃদ্ধ প্রখ্যাত হাদিস সংকলন।' },
-            { id: 'nasai', title: 'সুনান আন-নাসায়ী', count: '৫,৭৫৮ হাদিস', desc: 'ইমাম নাসায়ী (রঃ) কর্তৃক সংকলিত অতি বিশুদ্ধ হাদিসগ্রন্থ।' },
-            { id: 'ibnmajah', title: 'সুনান ইবনে মাজাহ', count: '৪,৩৪১ হাদিস', desc: 'সুনানে আরবাআর অন্যতম বিখ্যাত হাদিস গ্রন্থ।' }
+            { id: 'tirmidhi', title: 'সুনানে আত-তিরমিজী', count: '৩,৯৫৬ হাদিস', desc: 'ইমাম তিরমিজী (রঃ) সংকলিত সুন্নান ও ফিকহ সমৃদ্ধ হাদিস গ্রন্থ।' },
+            { id: 'abudawud', title: 'সুনানে আবু দাউদ', count: '৫,২৭৪ হাদিস', desc: 'আহকামী ও আইনি সমাধান সমৃদ্ধ প্রখ্যাত হাদিস সংকলন।' },
+            { id: 'nasai', title: 'সুনানে আন-নাসায়ী', count: '৫,৭৫৮ হাদিস', desc: 'ইমাম নাসায়ী (রঃ) কর্তৃক সংকলিত অতি বিশুদ্ধ হাদিসগ্রন্থ।' },
+            { id: 'ibnmajah', title: 'সুনানে ইবনে মাজাহ', count: '৪,৩৪১ হাদিস', desc: 'সুনানে আরবাআর অন্যতম বিখ্যাত হাদিস গ্রন্থ।' }
         ];
 
         const sampleHadiths = {
@@ -1371,7 +1371,7 @@
                 state.hadithsList=append?state.hadithsList.concat(mapped):mapped; renderHadithList(state.hadithsList);
                 const more=document.createElement('button'); more.id='loadMoreHadiths'; more.className='w-full p-3 rounded-xl border border-emerald-700/60 bg-emerald-950/50 text-emerald-300'; more.textContent='আরও ৫০টি হাদিস লোড করুন'; more.onclick=()=>{state.hadithPage++;loadHadiths(bookId,true)}; container.appendChild(more);
             } catch(e) {
-                if(!append){state.hadithsList=sampleHadiths[bookId]||sampleHadiths.bukhari;renderHadithList(state.hadithsList);const note=document.createElement('p');note.className='text-xs text-amber-300 text-center p-3';note.textContent='অনলাইন API পাওয়া যায়নি; আপাতত সীমিত নমুনা দেখানো হচ্ছে।';container.prepend(note);}
+                if(!append){state.hadithsList=sampleHadiths[bookId]||sampleHadiths.bukhari;renderHadithList(state.hadithsList);}
             }
         }
 
